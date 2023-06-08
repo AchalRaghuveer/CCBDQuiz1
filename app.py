@@ -10,24 +10,31 @@ cursor = connection.cursor()
 @app.route("/")
 def index():
     cursor = connection.cursor()
-    cursor.execute("select * from dbo.[people]")
+    cursor.execute("select * from dbo.[q0c]")
     data = cursor.fetchall()
     print("length = ", len(data))
     return render_template('index.html')
 
 @app.route("/search", methods=['GET', 'POST'])
 def searchName():
-    search_query = request.form.get('searchName')
+    search_query = request.form.get('telNo')
     print('search', search_query)
     cursor = connection.cursor()
     # cursor.execute("select * from dbo.[people]")
-    cursor.execute("select picture from dbo.[people] where name = '{}'".format(search_query))
+    cursor.execute("select * from dbo.[q0c] where teln = ?", search_query)
     data = cursor.fetchone()
     print("result = ", data)
-    link="https://abr2435assign1.blob.core.windows.net/quiz0contain/dodonot.jpeg"
+    name = data[0]
+    room = data[1]
+    img = data[2]
+    teln = data[3]
+    descript = data[4]
+    # image_paths = [row[0] for row in data if row[0].strip() != '']
+    # print("output", image_paths)
+    link="https://abr2435assign1.blob.core.windows.net/quiz0contain/"+img
     print('link----->', link)
     print('link2--->https://abr2435assign1.blob.core.windows.net/abr2435container/chuck.jpg')
-    return render_template('index.html', imgLink=link)
+    return render_template('index.html', imgLink=link, room = room, name=name, descript=descript)
 
 @app.route("/money", methods=['GET', 'POST'])
 def moneyRange():
