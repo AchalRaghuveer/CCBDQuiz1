@@ -11,7 +11,7 @@ cursor = connection.cursor()
 @app.route("/")
 def index():
     cursor = connection.cursor()
-    cursor.execute("select * from dbo.[q1c]")
+    cursor.execute("select * from dbo.[city]")
     data = cursor.fetchall()
     print("length = ", len(data))
     return render_template('index.html')
@@ -19,84 +19,126 @@ def index():
 
 @app.route("/search", methods=['GET', 'POST'])
 def searchRow():
-    search_query = request.form.get('row')
+    search_query = request.form.get('city')
     print('search', search_query)
     cursor = connection.cursor()
-    # cursor.execute("select * from dbo.[people]")
-    cursor.execute("select * from dbo.[q1c] where row = ?", search_query)
+    cursor.execute("select * from dbo.[city] where city = ?", search_query)
     data = cursor.fetchall()
-    tableVals = []
-    for i in range(len(data)):
-        if str(data[i][2]) != None:
-            img = "https://abr2435assign1.blob.core.windows.net/quiz1container/" + str(data[i][3])
-        else:
-            img = "No Image Found"
-        print('image value -------> ', img)
-        val = ValuesOBJ(data[i][0], img, data[i][2], "")
-        tableVals.append(val)
-    return render_template('index.html', tableVals=tableVals)
-
-@app.route("/findNumber", methods=['GET', 'POST'])
-def searchN():
-    number1 = request.form.get('number1')
-    number2 = request.form.get('number2')
-    seat = request.form.get('seat')
-    print("Numbers =======> ", number1, number2, seat)
-    cursor = connection.cursor()
-    data = None
-    if number1 != '' and number2 != '' and seat != '':
-        print("executed 1st condition")
-        cursor.execute("select * from dbo.[q1c] where row between ? and ? and seat = ?",(number1, number2, seat))
-        data = cursor.fetchall()
-    elif number1 != '' and number2 != '' and seat == '':
-        print("executed 2nd condition")
-        cursor.execute("select * from dbo.[q1c] where row between ? and ?", (number1, number2))
-        data = cursor.fetchall()
+    if len(data) > 0:
+        cityVal = ValuesOBJ(data[0][0],data[0][1], data[0][2], data[0][3], data[0][4])
+        lat = data[0][3]
+        long = data[0][4]
     else:
-        print("executed else condition")
-        cursor.execute("select * from dbo.[q1c] where seat = ?", (seat,))
-        data = cursor.fetchall()
-    print("length = ", len(data))
-    print("Data Imp =====> ", data)
+        cityVal = ValuesOBJ("No City","No State","0","9999999","9999999")
+        lat = 9999999999
+        long = 9999999999
+    km = 100
+    print("city val =======> ", cityVal.state)
+    cursor1 = connection.cursor()
+    cursor1.execute("SELECT * FROM dbo.[city] WHERE (6371 * ACOS( COS(RADIANS(?)) * COS(RADIANS(lat)) * COS(RADIANS(lon) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(lat)) )) <= ?", (lat,long,lat,km))
+    dataNear = cursor1.fetchall()
+    print("data near =========> ", len(dataNear))
     tableVals = []
-    for i in range(len(data)):
-        if str(data[i][2]) != None:
-            img = "https://abr2435assign1.blob.core.windows.net/quiz1container/" + str(data[i][3])
-        else:
-            img = "No Image Found"
-        print('image value -------> ', img)
-        val = ValuesOBJ(data[i][0], img, data[i][2], data[i][4])
-        tableVals.append(val)
-    return render_template('index.html', tableVals2=tableVals)
+    for i in range(len(dataNear)):
+        if dataNear[i][0] != data[0][0]:
+            val = ValuesOBJ(dataNear[i][0],dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
+            tableVals.append(val)
+    return render_template('index.html', tableVals=tableVals, cityVal=cityVal)
 
-@app.route("/add", methods=['GET', 'POST'])
-def addUser():
-    row = request.form.get('rowAdd')
-    img = request.files['imgAdd']
-    name = request.form.get('nameAdd')
-    seat = request.form.get('seatAdd')
-    notes = request.form.get('notesAdd')
-
-    print("Numbers =======> ", row, img, name, seat, notes)
-    if img != None:
-        upload(img)
+@app.route("/range", methods=['GET', 'POST'])
+def searchN():
+    maxLat = request.form.get('number1')
+    minLat = request.form.get('number2')
+    maxLon = request.form.get('number3')
+    minLon = request.form.get('number4')
+    print("max and min vals ========> ", maxLat, minLat, maxLon, minLon)
     cursor = connection.cursor()
+    cursor.execute("select * from dbo.[city] where (lat <= ? and lat >= ?) and (lon <= ? and lon >= ?)", (maxLat, minLat, maxLon, minLon))
 
-    cursor.execute("INSERT INTO dbo.[q1c] VALUES (?,?,?,?,?)", (name, row, seat, img.filename, notes))
-    cursor.commit()
-    return render_template('index.html', msg="Success")
+    dataNear = cursor.fetchall()
+    print("values of data ======> ", dataNear)
+    print("data near =========> ", len(dataNear))
+    tableVals2 = []
+    for i in range(len(dataNear)):
+        val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
+        tableVals2.append(val)
+    return render_template('index.html', tableVals2=tableVals2)
+
+@app.route("/incrange", methods=['GET', 'POST'])
+def incrange():
+    maxLat = request.form.get('number1')
+    minLat = request.form.get('number2')
+    maxLon = request.form.get('number3')
+    minLon = request.form.get('number4')
+    maxPopu = request.form.get('number5')
+    minPopu = request.form.get('number6')
+    inc = request.form.get('inc')
+    print("max and min vals ========> ", maxLat, minLat, maxLon, minLon)
+    cursor = connection.cursor()
+    cursor.execute("update dbo.[city] set population = ? + population where (lat <= ? and lat >= ?) and (lon <= ? and lon >= ?) and (population <= ? and population >= ?)", (inc,maxLat, minLat, maxLon, minLon, maxPopu, minPopu))
+    connection.commit()
+    cursor1 = connection.cursor()
+    cursor1.execute("select * from dbo.[city] where (lat <= ? and lat >= ?) and (lon <= ? and lon >= ?) and (population <= ? and population >= ?)", (maxLat, minLat, maxLon, minLon, maxPopu, minPopu))
+    dataNear = cursor1.fetchall()
+    print("values of data ======> ", dataNear)
+    print("data near =========> ", len(dataNear))
+    tableVals2 = []
+    for i in range(len(dataNear)):
+        val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
+        tableVals2.append(val)
+    return render_template('index.html', tableVals3=tableVals2)
+
+@app.route("/incstate", methods=['GET', 'POST'])
+def incstate():
+    state = request.form.get('state')
+    maxPopu = request.form.get('number5')
+    minPopu = request.form.get('number6')
+    inc = request.form.get('inc')
+    cursor = connection.cursor()
+    cursor.execute("update dbo.[city] set population = ? + population where state = ? and (population <= ? and population >= ?)", (inc, state, maxPopu, minPopu))
+    connection.commit()
+    cursor1 = connection.cursor()
+    cursor1.execute("select * from dbo.[city] where state = ? and (population <= ? and population >= ?)", (state, maxPopu, minPopu))
+    dataNear = cursor1.fetchall()
+    print("values of data ======> ", dataNear)
+    print("data near =========> ", len(dataNear))
+    tableVals2 = []
+    for i in range(len(dataNear)):
+        val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
+        tableVals2.append(val)
+    return render_template('index.html', tableVals4=tableVals2)
+
 
 @app.route("/delete", methods=['GET', 'POST'])
-def deleteUser():
+def deleteCity():
 
     name = request.form.get('nameDel')
-
-
-    print("Name =======> ",name)
-
-    cursor.execute("Delete from dbo.[q1c] where name = ?", name)
+    cursor.execute("Delete from dbo.[city] where city = ?", name)
     cursor.commit()
     return render_template('index.html', msgDel="Success")
+
+@app.route("/deleteS", methods=['GET', 'POST'])
+def deleteState():
+
+    name = request.form.get('nameDelS')
+    cursor.execute("Delete from dbo.[city] where state = ?", name)
+    cursor.commit()
+    return render_template('index.html', msgDelS="Success")
+
+@app.route("/add", methods=['GET', 'POST'])
+def add():
+
+    city = request.form.get('cityAdd')
+    state = request.form.get('stateAdd')
+    pop = request.form.get('popAdd')
+    lat = request.form.get('latAdd')
+    lon = request.form.get('lonAdd')
+    cursor.execute("insert into dbo.[city] values (?,?,?,?,?)", (city, state, pop, lat, lon))
+    cursor.commit()
+    return render_template('index.html', msgAddS="Success")
+
+
+
 
 @app.route("/updateRow", methods=['GET', 'POST'])
 def updateRow():
@@ -156,11 +198,12 @@ def upload(file):
 class ValuesOBJ:
 
     # The init method or constructor
-    def __init__(self, name, link, descript, seat):
+    def __init__(self, name, link, descript, seat, long):
         # Instance Variable
-        self.name = name
-        self.link = link
-        self.descript = descript
-        self.seat = seat
+        self.city = name
+        self.state = link
+        self.population = descript
+        self.lat = seat
+        self.long = long
 if __name__ == "__main__":
     app.run(debug = True)

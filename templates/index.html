@@ -1,48 +1,9 @@
 {%extends 'base.html'%}
 
 {%block head%}
-    <script>
-        function toggleRangeForm() {
-            var user = document.getElementById('user').value;
-            var row1 = document.getElementById('row1');
-            var img1 = document.getElementById('img1');
-            var notes1 = document.getElementById('notes1');
-            var seat1 = document.getElementById('seat1');
-
-            if (user === 'row') {
-                row1.style.display = 'block';
-                img1.style.display = 'none';
-                notes1.style.display = 'none';
-                seat1.style.display = 'none';
-            } else if (user === 'img') {
-                row1.style.display = 'none';
-                img1.style.display = 'block';
-                notes1.style.display = 'none';
-                seat1.style.display = 'none';
-            } else if (user === 'notes') {
-                row1.style.display = 'none';
-                img1.style.display = 'none';
-                notes1.style.display = 'block';
-                seat1.style.display = 'none';
-            } else if (user === 'seat') {
-                row1.style.display = 'none';
-                img1.style.display = 'none';
-                notes1.style.display = 'none';
-                seat1.style.display = 'block';
-            } else {
-                row1.style.display = 'none';
-                img1.style.display = 'none';
-                notes1.style.display = 'none';
-                seat1.style.display = 'none';
-            }
-        }
-    </script>
 <div class="heading" style="text-align: center;align-content: center;">
     <div class="card"
-        style="width: 30rem !important; left: 50rem !important; height: 43rem !important; align-items: center; text-align: center">
-    <img class="card-img-top" src="https://abr2435assign1.blob.core.windows.net/quiz1container/md.jpg"
-        alt="Card image cap" width="200"
-        height="200"> 
+        style="text-align: center">
     <div class="card-body" style="text-align:center;">
         <h2 class="card-title" style="text-align:center">Quiz 2</h2>
         <div>
@@ -59,122 +20,158 @@
 
 {%block body%}
 
-<h1>--------------------------------------------------------------------------------------------------------------------</h1>
-<br><br>
-{#    <h1>Fetch All Details</h1>#}
-{##}
-{#    <form action="/search" method="POST">#}
-{#    Enter Row Number : <input type="text" name="row" placeholder="Enter row" required>#}
-{#    <button type="submit">Search</button>#}
-{#</form>#}
-{##}
-{##}gi
-{##}
-{#    <table>#}
-{#  <tr>#}
-{#    <th>Name</th>#}
-{#    <th>Image</th>#}
-{#    <th>Seat</th>#}
-{#  </tr>#}
-{#        {% for tableVal in tableVals %}#}
-{#  <tr>#}
-{#    <td>{{  tableVal.name }}</td>#}
-{#    <td><img src="{{ tableVal.link }}" alt="No Image Found" width="200"#}
-{#       height="200"></td>#}
-{#    <td>{{tableVal.descript}}</td>#}
-{#  </tr>#}
-{#    {% endfor %}#}
-{#</table>#}
-{#<h1>--------------------------------------------------------------------------------------------------------------------</h1>#}
-{#<h1>Choose the range or Seat</h1>#}
-{#        <form action="/findNumber" method="POST">#}
-{##}
-{#            <label for="number1">Number Start:</label>#}
-{#            <input type="text" id="number1" name="number1" placeholder="Start">#}
-{#            <label for="number2">Number End:</label>#}
-{#            <input type="text" id="number2" name="number2" placeholder="End">#}
-{#            <label for="number3">Seat :</label>#}
-{#            <input type="text" id="number3" name="seat" placeholder="End">#}
-{#                <button type="submit">Search</button>#}
-{##}
-{#        </form>#}
-{#<table>#}
-{#  <tr>#}
-{#    <th>Name</th>#}
-{#    <th>Image</th>#}
-{#    <th>Seat</th>#}
-{#      <th>notes</th>#}
-{#  </tr>#}
-{#        {% for tableVal in tableVals2 %}#}
-{#  <tr>#}
-{#    <td>{{  tableVal.name }}</td>#}
-{#    <td><img src="{{ tableVal.link }}" alt="No Image Found" width="200"#}
-{#       height="200"></td>#}
-{#      <td>{{tableVal.seat}}</td>#}
-{#    <td>{{tableVal.descript}}</td>#}
-{#  </tr>#}
-{#    {% endfor %}#}
-{#</table>#}
-{#    <h1>--------------------------------------------------------------------------------------------------------------------</h1>#}
-{#<h1>Add a New User</h1>#}
-{#            <form action="/add" method="POST" enctype="multipart/form-data">#}
-{##}
-{#            <label for="number1">Name:</label>#}
-{#            <input type="text" id="number1" name="nameAdd" placeholder="Start">#}
-{#            <label for="number2">Row:</label>#}
-{#            <input type="text" id="number2" name="rowAdd" placeholder="End">#}
-{#            <label for="number3">Seat :</label>#}
-{#            <input type="text" id="number3" name="seatAdd" placeholder="Seat">#}
-{#                <label for="notes">Notes :</label>#}
-{#            <input type="text" id="number3" name="notesAdd" placeholder="Notes">#}
-{#                <label for="imgAdd">Image :</label>#}
-{#            <input type="file" name="imgAdd">#}
-{##}
-{#                <button type="submit">Add</button>#}
-{##}
-{#        </form>#}
-{#    {% if msg %}#}
-{#    <h1>Successfully Added the User</h1>#}
-{#    {% endif %}#}
-{#        <h1>--------------------------------------------------------------------------------------------------------------------</h1>#}
-{#    <h1>Delete User by Name</h1>#}
-{#<form action="/delete" method="POST">#}
-{##}
-{#        Name: <input type="text" name="nameDel">#}
-{#        <input type="submit" value="Delete">#}
-{#    </form>#}
-{#    {% if msg2 %}#}
-{#    <h1>Successfully Deleted the User</h1>#}
-{#    {% endif %}#}
-{#    <h1>--------------------------------------------------------------------------------------------------------------------</h1>#}
-{#    <h1>Update User</h1>#}
-{##}
-{#        Select the attribute you want to modify: <select name="range" id="user">#}
-{#<option value="none">none</option>#}
-{#  <option value="row">row</option>#}
-{#  <option value="seat">seat</option>#}
-{#  <option value="img">img</option>#}
-{#  <option value="notes">notes</option>#}
-{#</select>#}
-{#            <form action="/updateRow" method="POST" id="row1">#}
-{#            Enter the Name: <input type="text" name="nameDel">#}
-{#    Row: <input type="text" name="rowUp">#}
-{#        <input type="submit" value="Update">#}
-{#    </form>#}
-{#     <form action="/updateSeat" method="POST" id="seat1">#}
-{#     Enter the Name: <input type="text" name="nameDel">#}
-{#    Seat: <input type="text" name="seatUp">#}
-{#        <input type="submit" value="Update">#}
-{#    </form>#}
-{#     <form action="/updateImg" method="POST" id="img1" enctype="multipart/form-data">#}
-{#     Enter the Name: <input type="text" name="nameDel">#}
-{#    Img:             <input type="file" name="imgUp">#}
-{##}
-{#        <input type="submit" value="Update">#}
-{#    </form>#}
-{#     <form action="/updateNote" method="POST" id="notes">#}
-{#     Enter the Name: <input type="text" name="nameDel">#}
-{#    Notes: <input type="text" name="noteUp">#}
-{#        <input type="submit" value="Update">#}
-{#    </form>#}
+<h1>Cloud Computing Quiz 2</h1>
+    <h1>----------------------------------------------------------------------------------------------</h1>
+<form action="/search" method="POST">
+    Enter City Name : <input type="text" name="city" placeholder="city name" required>
+    <button type="submit">Search</button>
+</form>
+    {% if cityVal %}
+    <h1>City: {{ cityVal.city }}</h1>
+    <h1>State: {{ cityVal.state }}</h1>
+    <h1>Population: {{ cityVal.population }}</h1>
+    <h1>Lat: {{ cityVal.lat }}</h1>
+    <h1>Lon: {{ cityVal.long }}</h1>
+    {% endif %}
+<h3>====================================================================================================</h3>
+<h1>Cities that are less than 100KM radius</h1>
+<table>
+  <tr>
+    <th>City</th>
+    <th>State</th>
+    <th>Population</th>
+      <th>Lat</th>
+      <th>Lon</th>
+  </tr>
+        {% for tableVal in tableVals %}
+  <tr>
+    <td>{{  tableVal.city }}</td>
+      <td>{{tableVal.state}}</td>
+    <td>{{tableVal.population}}</td>
+  <td>{{tableVal.lat}}</td>
+  <td>{{tableVal.long}}</td>
+  </tr>
+    {% endfor %}
+</table>
+<h1>----------------------------------------------------------------------------------------------</h1>
+    <form action="/range" method="POST">
+        Max Lat :<input type="text" name="number1" placeholder="Search query" >
+        Min Lat :<input type="text" name="number2" placeholder="Search query" >
+        Max Lon :<input type="text" name="number3" placeholder="Search query" >
+        Min Lon :<input type="text" name="number4" placeholder="Search query" >
+        <button type="submit">Check</button>
+    </form>
+
+    <h1>Cities that are in range</h1>
+<table>
+  <tr>
+    <th>City</th>
+    <th>State</th>
+    <th>Population</th>
+      <th>Lat</th>
+      <th>Lon</th>
+  </tr>
+        {% for tableVal in tableVals2 %}
+  <tr>
+    <td>{{  tableVal.city }}</td>
+      <td>{{tableVal.state}}</td>
+    <td>{{tableVal.population}}</td>
+  <td>{{tableVal.lat}}</td>
+  <td>{{tableVal.long}}</td>
+  </tr>
+    {% endfor %}
+</table>
+<h1>----------------------------------------------------------------------------------------------</h1>
+    <h1>Increment the population by bounding box</h1>
+
+    <form action="/incrange" method="POST">
+        Max Lat :<input type="text" name="number1" placeholder="Search query" >
+        Min Lat :<input type="text" name="number2" placeholder="Search query" >
+        Max Lon :<input type="text" name="number3" placeholder="Search query" >
+        Min Lon :<input type="text" name="number4" placeholder="Search query" >
+        Max Population : <input type="text" name="number5" placeholder="Search query" >
+        Min Population : <input type="text" name="number6" placeholder="Search query" >
+        Increment Value : <input type="text" name="inc" placeholder="Search query" >
+        <button type="submit">Check</button>
+    </form>
+        <h1> Changed Population</h1>
+
+        <table>
+  <tr>
+    <th>City</th>
+    <th>State</th>
+    <th>Population</th>
+      <th>Lat</th>
+      <th>Lon</th>
+  </tr>
+        {% for tableVal in tableVals3 %}
+  <tr>
+    <td>{{  tableVal.city }}</td>
+      <td>{{tableVal.state}}</td>
+    <td>{{tableVal.population}}</td>
+  <td>{{tableVal.lat}}</td>
+  <td>{{tableVal.long}}</td>
+  </tr>
+    {% endfor %}
+</table>
+<h1>----------------------------------------------------------------------------------------------</h1>
+    <h1>----------------------------------------------------------------------------------------------</h1>
+    <h1>Increment the population by State Name</h1>
+
+    <form action="/incstate" method="POST">
+                State : <input type="text" name="state" placeholder="Search query" >
+        Max Population : <input type="text" name="number5" placeholder="Search query" >
+        Min Population : <input type="text" name="number6" placeholder="Search query" >
+        Increment Value : <input type="text" name="inc" placeholder="Search query" >
+        <button type="submit">Check</button>
+    </form>
+    <h1> Changed Population</h1>
+        <table>
+  <tr>
+    <th>City</th>
+    <th>State</th>
+    <th>Population</th>
+      <th>Lat</th>
+      <th>Lon</th>
+  </tr>
+        {% for tableVal in tableVals4 %}
+  <tr>
+    <td>{{  tableVal.city }}</td>
+      <td>{{tableVal.state}}</td>
+    <td>{{tableVal.population}}</td>
+  <td>{{tableVal.lat}}</td>
+  <td>{{tableVal.long}}</td>
+  </tr>
+    {% endfor %}
+</table>
+<h1>----------------------------------------------------------------------------------------------</h1>
+    <h1>Delete City by name</h1>
+    <form action="/delete" method="POST" enctype="multipart/form-data">
+
+        City Name: <input type="text" name="nameDel">
+        <input type="submit" value="Delete">
+    </form>
+    {% if msgDel %}
+    <h1>Deleted successfully!!!!</h1>
+    {% endif %}
+    <h1>----------------------------------------------------------------------------------------------</h1>
+    <h1>Delete State by name</h1>
+    <form action="/deleteS" method="POST" enctype="multipart/form-data">
+
+        State Name: <input type="text" name="nameDelS">
+        <input type="submit" value="Delete">
+    </form>
+    {% if msgDelS %}
+    <h1>Deleted successfully!!!!</h1>
+    {% endif %}
+<h1>-------------------------------------------------------------------------------------------------------</h1>
+    <h1>Add Entry</h1>
+    <form action="/add" method="POST">
+                City : <input type="text" name="cityAdd" placeholder="Search query" >
+        State : <input type="text" name="stateAdd" placeholder="Search query" >
+        Population : <input type="text" name="popAdd" placeholder="Search query" >
+        Lat : <input type="text" name="latAdd" placeholder="Search query" >
+        Lon : <input type="text" name="lonAdd" placeholder="Search query" >
+        <button type="submit">Check</button>
+
 {%endblock%}
