@@ -44,7 +44,7 @@
         alt="Card image cap" width="200"
         height="200"> 
     <div class="card-body" style="text-align:center;">
-        <h2 class="card-title" style="text-align:center">Quiz 1</h2>
+        <h2 class="card-title" style="text-align:center">Quiz 2</h2>
         <div>
             <h2>
                 <p class="card-text" style="text-align:center">Name: Achal Bhujangaswami Raghuveer</p>
@@ -61,120 +61,120 @@
 
 <h1>--------------------------------------------------------------------------------------------------------------------</h1>
 <br><br>
-    <h1>Fetch All Details</h1>
-
-    <form action="/search" method="POST">
-    Enter Row Number : <input type="text" name="row" placeholder="Enter row" required>
-    <button type="submit">Search</button>
-</form>
-
-
-
-    <table>
-  <tr>
-    <th>Name</th>
-    <th>Image</th>
-    <th>Seat</th>
-  </tr>
-        {% for tableVal in tableVals %}
-  <tr>
-    <td>{{  tableVal.name }}</td>
-    <td><img src="{{ tableVal.link }}" alt="No Image Found" width="200"
-       height="200"></td>
-    <td>{{tableVal.descript}}</td>
-  </tr>
-    {% endfor %}
-</table>
-<h1>--------------------------------------------------------------------------------------------------------------------</h1>
-<h1>Choose the range or Seat</h1>
-        <form action="/findNumber" method="POST">
-
-            <label for="number1">Number Start:</label>
-            <input type="text" id="number1" name="number1" placeholder="Start">
-            <label for="number2">Number End:</label>
-            <input type="text" id="number2" name="number2" placeholder="End">
-            <label for="number3">Seat :</label>
-            <input type="text" id="number3" name="seat" placeholder="End">
-                <button type="submit">Search</button>
-
-        </form>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Image</th>
-    <th>Seat</th>
-      <th>notes</th>
-  </tr>
-        {% for tableVal in tableVals2 %}
-  <tr>
-    <td>{{  tableVal.name }}</td>
-    <td><img src="{{ tableVal.link }}" alt="No Image Found" width="200"
-       height="200"></td>
-      <td>{{tableVal.seat}}</td>
-    <td>{{tableVal.descript}}</td>
-  </tr>
-    {% endfor %}
-</table>
-    <h1>--------------------------------------------------------------------------------------------------------------------</h1>
-<h1>Add a New User</h1>
-            <form action="/add" method="POST" enctype="multipart/form-data">
-
-            <label for="number1">Name:</label>
-            <input type="text" id="number1" name="nameAdd" placeholder="Start">
-            <label for="number2">Row:</label>
-            <input type="text" id="number2" name="rowAdd" placeholder="End">
-            <label for="number3">Seat :</label>
-            <input type="text" id="number3" name="seatAdd" placeholder="Seat">
-                <label for="notes">Notes :</label>
-            <input type="text" id="number3" name="notesAdd" placeholder="Notes">
-                <label for="imgAdd">Image :</label>
-            <input type="file" name="imgAdd">
-
-                <button type="submit">Add</button>
-
-        </form>
-    {% if msg %}
-    <h1>Successfully Added the User</h1>
-    {% endif %}
-        <h1>--------------------------------------------------------------------------------------------------------------------</h1>
-    <h1>Delete User by Name</h1>
-<form action="/delete" method="POST">
-
-        Name: <input type="text" name="nameDel">
-        <input type="submit" value="Delete">
-    </form>
-    {% if msg2 %}
-    <h1>Successfully Deleted the User</h1>
-    {% endif %}
-    <h1>--------------------------------------------------------------------------------------------------------------------</h1>
-    <h1>Update User</h1>
-
-        Select the attribute you want to modify: <select name="user" id="user">
-<option value="none">none</option>
-  <option value="row">row</option>
-  <option value="seat">seat</option>
-  <option value="img">img</option>
-  <option value="notes">notes</option>
-</select>
-            <form action="/updateRow" method="POST" id="row1">
-            Enter the Name: <input type="text" name="nameDel">
-    Row: <input type="text" name="rowUp">
-        <input type="submit" value="Update">
-    </form>
-     <form action="/updateSeat" method="POST" id="seat1">
-     Enter the Name: <input type="text" name="nameDel">
-    Seat: <input type="text" name="seatUp">
-        <input type="submit" value="Update">
-    </form>
-     <form action="/updateImg" method="POST" id="img1" enctype="multipart/form-data">
-     Enter the Name: <input type="text" name="nameDel">
-    Img:             <input type="file" name="imgUp">
-
-        <input type="submit" value="Update">
-    </form>
-     <form action="/updateNote" method="POST" id="notes">
-     Enter the Name: <input type="text" name="nameDel">
-    Notes: <input type="text" name="noteUp">
-        <input type="submit" value="Update">
-    </form>
+{#    <h1>Fetch All Details</h1>#}
+{##}
+{#    <form action="/search" method="POST">#}
+{#    Enter Row Number : <input type="text" name="row" placeholder="Enter row" required>#}
+{#    <button type="submit">Search</button>#}
+{#</form>#}
+{##}
+{##}gi
+{##}
+{#    <table>#}
+{#  <tr>#}
+{#    <th>Name</th>#}
+{#    <th>Image</th>#}
+{#    <th>Seat</th>#}
+{#  </tr>#}
+{#        {% for tableVal in tableVals %}#}
+{#  <tr>#}
+{#    <td>{{  tableVal.name }}</td>#}
+{#    <td><img src="{{ tableVal.link }}" alt="No Image Found" width="200"#}
+{#       height="200"></td>#}
+{#    <td>{{tableVal.descript}}</td>#}
+{#  </tr>#}
+{#    {% endfor %}#}
+{#</table>#}
+{#<h1>--------------------------------------------------------------------------------------------------------------------</h1>#}
+{#<h1>Choose the range or Seat</h1>#}
+{#        <form action="/findNumber" method="POST">#}
+{##}
+{#            <label for="number1">Number Start:</label>#}
+{#            <input type="text" id="number1" name="number1" placeholder="Start">#}
+{#            <label for="number2">Number End:</label>#}
+{#            <input type="text" id="number2" name="number2" placeholder="End">#}
+{#            <label for="number3">Seat :</label>#}
+{#            <input type="text" id="number3" name="seat" placeholder="End">#}
+{#                <button type="submit">Search</button>#}
+{##}
+{#        </form>#}
+{#<table>#}
+{#  <tr>#}
+{#    <th>Name</th>#}
+{#    <th>Image</th>#}
+{#    <th>Seat</th>#}
+{#      <th>notes</th>#}
+{#  </tr>#}
+{#        {% for tableVal in tableVals2 %}#}
+{#  <tr>#}
+{#    <td>{{  tableVal.name }}</td>#}
+{#    <td><img src="{{ tableVal.link }}" alt="No Image Found" width="200"#}
+{#       height="200"></td>#}
+{#      <td>{{tableVal.seat}}</td>#}
+{#    <td>{{tableVal.descript}}</td>#}
+{#  </tr>#}
+{#    {% endfor %}#}
+{#</table>#}
+{#    <h1>--------------------------------------------------------------------------------------------------------------------</h1>#}
+{#<h1>Add a New User</h1>#}
+{#            <form action="/add" method="POST" enctype="multipart/form-data">#}
+{##}
+{#            <label for="number1">Name:</label>#}
+{#            <input type="text" id="number1" name="nameAdd" placeholder="Start">#}
+{#            <label for="number2">Row:</label>#}
+{#            <input type="text" id="number2" name="rowAdd" placeholder="End">#}
+{#            <label for="number3">Seat :</label>#}
+{#            <input type="text" id="number3" name="seatAdd" placeholder="Seat">#}
+{#                <label for="notes">Notes :</label>#}
+{#            <input type="text" id="number3" name="notesAdd" placeholder="Notes">#}
+{#                <label for="imgAdd">Image :</label>#}
+{#            <input type="file" name="imgAdd">#}
+{##}
+{#                <button type="submit">Add</button>#}
+{##}
+{#        </form>#}
+{#    {% if msg %}#}
+{#    <h1>Successfully Added the User</h1>#}
+{#    {% endif %}#}
+{#        <h1>--------------------------------------------------------------------------------------------------------------------</h1>#}
+{#    <h1>Delete User by Name</h1>#}
+{#<form action="/delete" method="POST">#}
+{##}
+{#        Name: <input type="text" name="nameDel">#}
+{#        <input type="submit" value="Delete">#}
+{#    </form>#}
+{#    {% if msg2 %}#}
+{#    <h1>Successfully Deleted the User</h1>#}
+{#    {% endif %}#}
+{#    <h1>--------------------------------------------------------------------------------------------------------------------</h1>#}
+{#    <h1>Update User</h1>#}
+{##}
+{#        Select the attribute you want to modify: <select name="range" id="user">#}
+{#<option value="none">none</option>#}
+{#  <option value="row">row</option>#}
+{#  <option value="seat">seat</option>#}
+{#  <option value="img">img</option>#}
+{#  <option value="notes">notes</option>#}
+{#</select>#}
+{#            <form action="/updateRow" method="POST" id="row1">#}
+{#            Enter the Name: <input type="text" name="nameDel">#}
+{#    Row: <input type="text" name="rowUp">#}
+{#        <input type="submit" value="Update">#}
+{#    </form>#}
+{#     <form action="/updateSeat" method="POST" id="seat1">#}
+{#     Enter the Name: <input type="text" name="nameDel">#}
+{#    Seat: <input type="text" name="seatUp">#}
+{#        <input type="submit" value="Update">#}
+{#    </form>#}
+{#     <form action="/updateImg" method="POST" id="img1" enctype="multipart/form-data">#}
+{#     Enter the Name: <input type="text" name="nameDel">#}
+{#    Img:             <input type="file" name="imgUp">#}
+{##}
+{#        <input type="submit" value="Update">#}
+{#    </form>#}
+{#     <form action="/updateNote" method="POST" id="notes">#}
+{#     Enter the Name: <input type="text" name="nameDel">#}
+{#    Notes: <input type="text" name="noteUp">#}
+{#        <input type="submit" value="Update">#}
+{#    </form>#}
 {%endblock%}
