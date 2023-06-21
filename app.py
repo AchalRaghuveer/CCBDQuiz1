@@ -56,6 +56,7 @@ def index():
 
 @app.route("/rangepop", methods=['GET', 'POST'])
 def searchN():
+    startTotTime = timer()
     maxPop = request.form.get('number5')
     minPop = request.form.get('number6')
     print("values =====> ", maxPop, minPop)
@@ -71,7 +72,8 @@ def searchN():
         val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
         tableVals2.append(val)
     finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
-    return render_template('index.html', tableVals2=tableVals2, finalTime1=finalTime)
+    finalTimes2 = "%.1f ms" % (1000 * (timer() - startTotTime + net_lat))
+    return render_template('index.html', tableVals2=tableVals2, finalTime1=finalTime, finalTimes2=finalTimes2)
 
 @app.route("/rangepopRedis", methods=['GET', 'POST'])
 def searchNRed():
@@ -84,33 +86,23 @@ def searchNRed():
     dataNear = cursor.fetchall()
     print("values of data ======> ", dataNear)
     print("data near =========> ", len(dataNear))
-    # tableVals2 = []
-    # for i in range(len(dataNear)):
-    #     val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
-    #     tableVals2.append(val)
-    # temp_result = []
-    # for j in tableVals2:
-    #     temp_result = temp_result + str(j)
-    # redisConnection.set("fetachRedis1", temp_result)
-    # starttime = timer()
-    # redisConnection.get("fetachRedis1")
-    # finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
     tableVals2 = []
-    for i in range(int(len(dataNear))):
+    for i in range(len(dataNear)):
         val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
         tableVals2.append(val)
-    temp_result = ""
+    temp_result = []
     for j in tableVals2:
         temp_result = temp_result + str(j)
-    redisConnection.set("fetachRedis2", temp_result)
+    redisConnection.set("fetachRedis1", temp_result)
     starttime = timer()
-    redisConnection.get("fetachRedis2")
+    redisConnection.get("fetachRedis1")
     finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
     return render_template('index.html', tableVals8=tableVals2, finalTime7=finalTime)
 
 
 @app.route("/rangepoptup", methods=['GET', 'POST'])
 def searchNtup():
+    startTotTime = timer()
     maxPop = request.form.get('number7')
     minPop = request.form.get('number8')
     tup = request.form.get('tup')
@@ -127,7 +119,8 @@ def searchNtup():
         val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
         tableVals2.append(val)
     finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
-    return render_template('index.html', tableVals3=tableVals2, finalTime2=finalTime)
+    finalTimes2 = "%.1f ms" % (1000 * (timer() - startTotTime + net_lat))
+    return render_template('index.html', tableVals3=tableVals2, finalTime2=finalTime, finalTimes3= finalTimes2)
 
 @app.route("/rangepoptupRedis", methods=['GET', 'POST'])
 def searchNtupRed():
