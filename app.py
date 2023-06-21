@@ -20,7 +20,7 @@ cursor = connection.cursor()
 @app.route("/")
 def index():
     cursor = connection.cursor()
-    cursor.execute("select * from dbo.[city]")
+    cursor.execute("select * from dbo.[city-1]")
     data = cursor.fetchall()
     print("length = ", len(data))
     return render_template('index.html')
@@ -54,15 +54,14 @@ def index():
 #             tableVals.append(val)
 #     return render_template('index.html', tableVals=tableVals, cityVal=cityVal)
 
-@app.route("/range", methods=['GET', 'POST'])
+@app.route("/rangepop", methods=['GET', 'POST'])
 def searchN():
-    maxLat = request.form.get('number1')
-    minLat = request.form.get('number2')
-    maxLon = request.form.get('number3')
-    minLon = request.form.get('number4')
-    print("max and min vals ========> ", maxLat, minLat, maxLon, minLon)
+    maxPop = request.form.get('number5')
+    minPop = request.form.get('number6')
+    print("values =====> ", maxPop, minPop)
+    starttime = timer()
     cursor = connection.cursor()
-    cursor.execute("select * from dbo.[city] where (lat <= ? and lat >= ?) and (lon <= ? and lon >= ?)", (maxLat, minLat, maxLon, minLon))
+    cursor.execute("select * from dbo.[city-1] where population <= ? and population >= ?", (minPop, maxPop))
 
     dataNear = cursor.fetchall()
     print("values of data ======> ", dataNear)
@@ -71,23 +70,105 @@ def searchN():
     for i in range(len(dataNear)):
         val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
         tableVals2.append(val)
-    return render_template('index.html', tableVals2=tableVals2)
+    finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
+    return render_template('index.html', tableVals2=tableVals2, finalTime1=finalTime)
 
+@app.route("/rangepopRedis", methods=['GET', 'POST'])
+def searchNRed():
+    maxPop = request.form.get('number15')
+    minPop = request.form.get('number16')
+    print("values =====> ", maxPop, minPop)
+    cursor = connection.cursor()
+    cursor.execute("select * from dbo.[city-1] where population <= ? and population >= ?", (minPop, maxPop))
+
+    dataNear = cursor.fetchall()
+    print("values of data ======> ", dataNear)
+    print("data near =========> ", len(dataNear))
+    # tableVals2 = []
+    # for i in range(len(dataNear)):
+    #     val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
+    #     tableVals2.append(val)
+    # temp_result = []
+    # for j in tableVals2:
+    #     temp_result = temp_result + str(j)
+    # redisConnection.set("fetachRedis1", temp_result)
+    # starttime = timer()
+    # redisConnection.get("fetachRedis1")
+    # finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
+    tableVals2 = []
+    for i in range(int(len(dataNear))):
+        val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
+        tableVals2.append(val)
+    temp_result = ""
+    for j in tableVals2:
+        temp_result = temp_result + str(j)
+    redisConnection.set("fetachRedis2", temp_result)
+    starttime = timer()
+    redisConnection.get("fetachRedis2")
+    finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
+    return render_template('index.html', tableVals8=tableVals2, finalTime7=finalTime)
+
+
+@app.route("/rangepoptup", methods=['GET', 'POST'])
+def searchNtup():
+    maxPop = request.form.get('number7')
+    minPop = request.form.get('number8')
+    tup = request.form.get('tup')
+    print("values =====> ", maxPop, minPop, tup)
+    starttime = timer()
+    cursor = connection.cursor()
+    # cursor.execute("select Top ? rand() * from dbo.[city-1] where population <= ? and population >= ?", (tup, minPop, maxPop))
+    cursor.execute("SELECT * FROM dbo.[city-1] where population <= ? and population >= ? ORDER BY NEWID()", (minPop, maxPop))
+    dataNear = cursor.fetchall()
+    print("values of data ======> ", dataNear)
+    print("data near =========> ", len(dataNear))
+    tableVals2 = []
+    for i in range(int(tup)):
+        val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
+        tableVals2.append(val)
+    finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
+    return render_template('index.html', tableVals3=tableVals2, finalTime2=finalTime)
+
+@app.route("/rangepoptupRedis", methods=['GET', 'POST'])
+def searchNtupRed():
+    maxPop = request.form.get('number11')
+    minPop = request.form.get('number12')
+    tup = request.form.get('tupRed')
+    print("values =====> ", maxPop, minPop, tup)
+    cursor = connection.cursor()
+    # cursor.execute("select Top ? rand() * from dbo.[city-1] where population <= ? and population >= ?", (tup, minPop, maxPop))
+    cursor.execute("SELECT * FROM dbo.[city-1] where population <= ? and population >= ? ORDER BY NEWID()",(minPop, maxPop))
+    dataNear = cursor.fetchall()
+    print("values of data ======> ", dataNear)
+    print("data near =========> ", len(dataNear))
+    tableVals2 = []
+    for i in range(int(tup)):
+        val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
+        tableVals2.append(val)
+    temp_result = ""
+    for j in tableVals2:
+        temp_result = temp_result + str(j)
+    redisConnection.set("fetachRedis2", temp_result)
+    starttime = timer()
+    redisConnection.get("fetachRedis2")
+    finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
+    return render_template('index.html', tableVals5=tableVals2, finalTime4=finalTime)
 @app.route("/incrange", methods=['GET', 'POST'])
 def incrange():
-    maxLat = request.form.get('number1')
-    minLat = request.form.get('number2')
-    maxLon = request.form.get('number3')
-    minLon = request.form.get('number4')
-    maxPopu = request.form.get('number5')
-    minPopu = request.form.get('number6')
+    state = request.form.get('state')
+    maxPopu = request.form.get('number9')
+    minPopu = request.form.get('number10')
     inc = request.form.get('inc')
-    print("max and min vals ========> ", maxLat, minLat, maxLon, minLon)
+    print("max and min vals ========> ", state, maxPopu, minPopu, inc)
+    starttime = timer()
     cursor = connection.cursor()
-    cursor.execute("update dbo.[city] set population = ? + population where (lat <= ? and lat >= ?) and (lon <= ? and lon >= ?) and (population <= ? and population >= ?)", (inc,maxLat, minLat, maxLon, minLon, maxPopu, minPopu))
+    cursor.execute("update dbo.[city-1] set population = ? + population where state = ? and (population <= ? and population >= ?)", (inc,state, maxPopu, minPopu))
     connection.commit()
     cursor1 = connection.cursor()
-    cursor1.execute("select * from dbo.[city] where (lat <= ? and lat >= ?) and (lon <= ? and lon >= ?) and (population <= ? and population >= ?)", (maxLat, minLat, maxLon, minLon, maxPopu, minPopu))
+    maxPopu1=int(maxPopu)+int(inc)
+    minPopu2=int(minPopu)+int(inc)
+    print(minPopu2, maxPopu1)
+    cursor1.execute("select * from dbo.[city-1] where state = ? and (population <= ? and population >= ?)", (state, maxPopu1, minPopu2))
     dataNear = cursor1.fetchall()
     print("values of data ======> ", dataNear)
     print("data near =========> ", len(dataNear))
@@ -95,7 +176,8 @@ def incrange():
     for i in range(len(dataNear)):
         val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
         tableVals2.append(val)
-    return render_template('index.html', tableVals3=tableVals2)
+    finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
+    return render_template('index.html', tableVals4=tableVals2, finalTime3=finalTime)
 
 @app.route("/incstate", methods=['GET', 'POST'])
 def incstate():
