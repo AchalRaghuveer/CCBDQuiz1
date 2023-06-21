@@ -201,7 +201,7 @@ def redisValue():
         starttime = timer()
         for data in range(int(noOfLoops)):
             redisConnection.get("fetchVal")
-        finalTime = "%.1f ms" % (1000 * (timer() - starttime - lat - intr_lat - net_lat))
+        # finalTime = "%.1f ms" % (1000 * (timer() - starttime - lat - intr_lat - net_lat))
         # hashing = hashlib.sha224(q.encode('utf-8')).hexdigest()
         # key = "valRedis:{}".format(hashing)
         # starttime = timer()
@@ -215,7 +215,7 @@ def redisValue():
         #     else:
         #         print("caching redis")
         # finalTime = "%.1f ms" % (1000 * (timer() - starttime - lat - intr_lat - net_lat))
-        # finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
+        finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
     return render_template('index.html', randomquerytimeredis = finalTime)
 
 # @app.route("/updateNote", methods=['GET', 'POST'])
