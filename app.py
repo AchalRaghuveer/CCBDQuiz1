@@ -13,7 +13,7 @@ intr_lat = 0.005
 net_lat = 0.4
 
 connection = pyodbc.connect('Driver={ODBC Driver 18 for SQL Server};Server=tcp:ccbdserver2.database.windows.net,1433;Database=CCBD;Uid=abr2435;Pwd=UTApass3;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30')
-redisConnection = redis.StrictRedis(host='abr2435ccbdweb.redis.cache.windows.net',port=6380, db=0, password='Ix5dAkrYyUa9wdbA2VDHLk8L44UvQ8kuhAzCaHBvtCU=', ssl=True)
+redisConnection = redis.StrictRedis(host='abr2435ccbdweb.redis.cache.windows.net',port=6379, db=0, password='Ix5dAkrYyUa9wdbA2VDHLk8L44UvQ8kuhAzCaHBvtCU=', ssl=False)
 redisConnection.flushall()
 cursor = connection.cursor()
 
