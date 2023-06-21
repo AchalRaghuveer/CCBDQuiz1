@@ -179,7 +179,7 @@ def randomquery():
         NoOfLoops = request.form.get('normal')
         starttime = timer()
         for data in range(int(NoOfLoops)):
-            cursor.execute("select * from dbo.[all_month]")
+            cursor.execute("select top 1000 * from dbo.[all_month]")
             # cursor.execute("INSERT INTO dbo.[all_month] VALUES('2022-06-20T00:14:13.990Z','00:14:13', 65.56016739, -196.0518964, 42.64500046, 3.54, 'ml', 55, 894, 0.03837, 0.899999995, 'hv', '2022-06-20T00:27:46.240Z', '27 km SSE of Fern Forest', 'Hawaii', 'earthquake', 0.89, 0.479999989,3.22,26, 'automatic', 'hv', 'hv')")
             cursor.commit()
         finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
@@ -191,20 +191,30 @@ def redisValue():
     if request.method == 'POST':
         noOfLoops = request.form.get('name')
         print("redis Q =====> ", noOfLoops)
-        q = "select * from dbo.[all_month]"
-        hashing = hashlib.sha224(q.encode('utf-8')).hexdigest()
-        key = "valRedis:{}".format(hashing)
+        q = "select top 1000 * from dbo.[all_month]"
+        cursor.execute(q)
+        temp = cursor.fetchall()
+        temp_result = ""
+        for j in temp:
+            temp_result = temp_result + str(j)
+        redisConnection.set("fetchVal",temp_result)
         starttime = timer()
         for data in range(int(noOfLoops)):
-            if not (redisConnection.get(key)):
-                cursor.execute(q)
-                outputVal = list(cursor.fetchall())
-                print("fetched val =====> ", outputVal)
-                redisConnection.set(key, pickle.dumps(list(outputVal)))
-                redisConnection.expire(key, 40)
-            else:
-                print("caching redis")
+            redisConnection.get("fetchVal")
         finalTime = "%.1f ms" % (1000 * (timer() - starttime - lat - intr_lat - net_lat))
+        # hashing = hashlib.sha224(q.encode('utf-8')).hexdigest()
+        # key = "valRedis:{}".format(hashing)
+        # starttime = timer()
+        # for data in range(int(noOfLoops)):
+        #     if not (redisConnection.get(key)):
+        #         cursor.execute(q)
+        #         outputVal = list(cursor.fetchall())
+        #         print("fetched val =====> ", outputVal)
+        #         redisConnection.set(key, pickle.dumps(list(outputVal)))
+        #         redisConnection.expire(key, 40)
+        #     else:
+        #         print("caching redis")
+        # finalTime = "%.1f ms" % (1000 * (timer() - starttime - lat - intr_lat - net_lat))
         # finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
     return render_template('index.html', randomquerytimeredis = finalTime)
 
