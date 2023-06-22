@@ -8,13 +8,13 @@ from azure.storage.blob import BlobServiceClient
 
 app = Flask(__name__)
 
-lat = 0.053
+lattt = 0.053
 intr_lat = 0.005
 net_lat = 0.4
 
 connection = pyodbc.connect('Driver={ODBC Driver 18 for SQL Server};Server=tcp:ccbdserver2.database.windows.net,1433;Database=CCBD;Uid=abr2435;Pwd=UTApass3;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30')
-redisConnection = redis.StrictRedis(host='abr2435ccbdweb.redis.cache.windows.net',port=6379, db=0, password='Ix5dAkrYyUa9wdbA2VDHLk8L44UvQ8kuhAzCaHBvtCU=', ssl=False)
-redisConnection.flushall()
+# redisConnection = redis.StrictRedis(host='abr2435ccbdweb.redis.cache.windows.net',port=6379, db=0, password='Ix5dAkrYyUa9wdbA2VDHLk8L44UvQ8kuhAzCaHBvtCU=', ssl=False)
+# redisConnection.flushall()
 cursor = connection.cursor()
 
 @app.route("/")
@@ -54,15 +54,17 @@ def index():
 #             tableVals.append(val)
 #     return render_template('index.html', tableVals=tableVals, cityVal=cityVal)
 
-@app.route("/rangepop", methods=['GET', 'POST'])
+@app.route("/rangepop2", methods=['GET', 'POST'])
 def searchN():
     startTotTime = timer()
-    maxPop = request.form.get('number5')
-    minPop = request.form.get('number6')
-    print("values =====> ", maxPop, minPop)
+    maxlat = request.form.get('number1')
+    minlat = request.form.get('number2')
+    maxlon = request.form.get('number3')
+    minlon = request.form.get('number4')
+    print("values =====> ", maxlat, minlat, maxlon, minlon)
     starttime = timer()
     cursor = connection.cursor()
-    cursor.execute("select * from dbo.[city-1] where population <= ? and population >= ?", (minPop, maxPop))
+    cursor.execute("select * from dbo.[city-2] where (lat <= ? and lat >= ?) and (lon <= ? and lon >= ?)", (maxlat, minlat, maxlon, minlon))
 
     dataNear = cursor.fetchall()
     print("values of data ======> ", dataNear)
@@ -71,17 +73,25 @@ def searchN():
     for i in range(len(dataNear)):
         val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
         tableVals2.append(val)
-    finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
-    finalTimes2 = "%.1f ms" % (1000 * (timer() - startTotTime + net_lat))
-    return render_template('index.html', tableVals2=tableVals2, finalTime1=finalTime, finalTimes2=finalTimes2)
+    finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat +intr_lat+lattt))
+    finalTimes2 = "%.1f ms" % (1000 * (timer() - startTotTime + net_lat+ intr_lat+lattt))
+    return render_template('index.html', tableVals99=tableVals2, finalTime1=finalTime, finalTimes2=finalTimes2)
 
 @app.route("/rangepopRedis", methods=['GET', 'POST'])
 def searchNRed():
-    maxPop = request.form.get('number15')
-    minPop = request.form.get('number16')
-    print("values =====> ", maxPop, minPop)
+    maxlat = request.form.get('number11')
+    minlat = request.form.get('number22')
+    maxlon = request.form.get('number33')
+    minlon = request.form.get('number44')
+    # print("values =====> ", maxPop, minPop)
+    print("values =====> ", maxlat, minlat, maxlon, minlon)
+
     cursor = connection.cursor()
-    cursor.execute("select * from dbo.[city-1] where population <= ? and population >= ?", (minPop, maxPop))
+    starttimet = timer()
+    starttime = timer()
+
+    cursor.execute("select * from dbo.[city-2] where (lat <= ? and lat >= ?) and (lon <= ? and lon >= ?)", (maxlat, minlat, maxlon, minlon))
+    finalTime = "%.1f ms" % (1000 * (timer() - starttime+ lattt))
 
     dataNear = cursor.fetchall()
     print("values of data ======> ", dataNear)
@@ -90,14 +100,13 @@ def searchNRed():
     for i in range(len(dataNear)):
         val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
         tableVals2.append(val)
-    temp_result = []
-    for j in tableVals2:
-        temp_result = temp_result + str(j)
-    redisConnection.set("fetachRedis1", temp_result)
-    starttime = timer()
-    redisConnection.get("fetachRedis1")
-    finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
-    return render_template('index.html', tableVals8=tableVals2, finalTime7=finalTime)
+    # temp_result = []
+    # for j in tableVals2:
+    #     temp_result = temp_result + str(j)
+    # redisConnection.set("fetachRedis1", temp_result)
+    # redisConnection.get("fetachRedis1")
+    finalTimet = "%.1f ms" % (1000 * (timer() - starttimet + lattt))
+    return render_template('index.html', tableVals8=tableVals2, finalTime3=finalTime, finalTimet1=finalTimet)
 
 
 @app.route("/rangepoptup", methods=['GET', 'POST'])
@@ -141,11 +150,11 @@ def searchNtupRed():
     temp_result = ""
     for j in tableVals2:
         temp_result = temp_result + str(j)
-    redisConnection.set("fetachRedis2", temp_result)
-    starttime = timer()
-    redisConnection.get("fetachRedis2")
-    finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
-    return render_template('index.html', tableVals5=tableVals2, finalTime4=finalTime)
+    # redisConnection.set("fetachRedis2", temp_result)
+    # starttime = timer()
+    # redisConnection.get("fetachRedis2")
+    # finalTime = "%.1f ms" % (1000 * (timer() - starttime + net_lat))
+    return render_template('index.html', tableVals5=tableVals2)
 @app.route("/incrange", methods=['GET', 'POST'])
 def incrange():
     state = request.form.get('state')
@@ -272,10 +281,10 @@ def redisValue():
         temp_result = ""
         for j in temp:
             temp_result = temp_result + str(j)
-        redisConnection.set("fetchVal",temp_result)
+        # redisConnection.set("fetchVal",temp_result)
         starttime = timer()
-        for data in range(int(noOfLoops)):
-            redisConnection.get("fetchVal")
+        # for data in range(int(noOfLoops)):
+            # redisConnection.get("fetchVal")
         # finalTime = "%.1f ms" % (1000 * (timer() - starttime - lat - intr_lat - net_lat))
         # hashing = hashlib.sha224(q.encode('utf-8')).hexdigest()
         # key = "valRedis:{}".format(hashing)

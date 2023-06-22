@@ -61,47 +61,17 @@
 {#  </tr>#}
 {#    {% endfor %}#}
 {#</table>#}
-{#<h1>----------------------------------------------------------------------------------------------</h1>#}
-{#    <form action="/range" method="POST">#}
-{#        Max Lat :<input type="text" name="number1" placeholder="Search query" >#}
-{#        Min Lat :<input type="text" name="number2" placeholder="Search query" >#}
-{#        Max Lon :<input type="text" name="number3" placeholder="Search query" >#}
-{#        Min Lon :<input type="text" name="number4" placeholder="Search query" >#}
-{#        <button type="submit">Check</button>#}
-{#    </form>#}
-{##}
-{#    <h1>Cities that are in range</h1>#}
-{#<table>#}
-{#  <tr>#}
-{#    <th>City</th>#}
-{#    <th>State</th>#}
-{#    <th>Population</th>#}
-{#      <th>Lat</th>#}
-{#      <th>Lon</th>#}
-{#  </tr>#}
-{#        {% for tableVal in tableVals2 %}#}
-{#  <tr>#}
-{#    <td>{{  tableVal.city }}</td>#}
-{#      <td>{{tableVal.state}}</td>#}
-{#    <td>{{tableVal.population}}</td>#}
-{#  <td>{{tableVal.lat}}</td>#}
-{#  <td>{{tableVal.long}}</td>#}
-{#  </tr>#}
-{#    {% endfor %}#}
-{#</table>#}
-{#<h1>----------------------------------------------------------------------------------------------</h1>#}
-    <h1>----------------------------------------------------------------------------------------------</h1>
-    <h1>Range Values</h1>
-
-    <form action="/rangepop" method="POST">
-{#                State : <input type="text" name="state" placeholder="Search query" >#}
-        Max Population : <input type="text" name="number5" placeholder="Search query" >
-        Min Population : <input type="text" name="number6" placeholder="Search query" >
-{#        Increment Value : <input type="text" name="inc" placeholder="Search query" >#}
+<h1>----------------------------------------------------------------------------------------------</h1>
+    <form action="/rangepop2" method="POST">
+        Max Lat :<input type="text" name="number1" placeholder="Search query" >
+        Min Lat :<input type="text" name="number2" placeholder="Search query" >
+        Max Lon :<input type="text" name="number3" placeholder="Search query" >
+        Min Lon :<input type="text" name="number4" placeholder="Search query" >
         <button type="submit">Check</button>
     </form>
-    <h1> Changed Population</h1>
-        <table>
+
+    <h1>Cities that are in range</h1>
+<table>
   <tr>
     <th>City</th>
     <th>State</th>
@@ -109,7 +79,7 @@
       <th>Lat</th>
       <th>Lon</th>
   </tr>
-        {% for tableVal in tableVals2 %}
+        {% for tableVal in tableVals99 %}
   <tr>
     <td>{{  tableVal.city }}</td>
       <td>{{tableVal.state}}</td>
@@ -118,115 +88,21 @@
   <td>{{tableVal.long}}</td>
   </tr>
     {% endfor %}
-        <h1>Final Time to get : {{ finalTime1 }}</h1>
+</table>
+    <h1>Final Time to get : {{ finalTime1 }}</h1>
         <h1>Final Tot Time to get : {{ finalTimes2 }}</h1>
-</table>
-    <h1>----------------------------------------------------------------------------------------------</h1>
-    <h1>Population range with n tuples</h1>
-
-    <form action="/rangepoptup" method="POST">
-                Number of Tuples : <input type="text" name="tup" placeholder="Search query" >
-        Max Population : <input type="text" name="number7" placeholder="Search query" >
-        Min Population : <input type="text" name="number8" placeholder="Search query" >
-{#        Increment Value : <input type="text" name="inc" placeholder="Search query" >#}
-        <button type="submit">Check</button>
-    </form>
-    <h1> Changed Population</h1>
-        <table>
-  <tr>
-    <th>City</th>
-    <th>State</th>
-    <th>Population</th>
-      <th>Lat</th>
-      <th>Lon</th>
-  </tr>
-        {% for tableVal in tableVals3 %}
-  <tr>
-    <td>{{  tableVal.city }}</td>
-      <td>{{tableVal.state}}</td>
-    <td>{{tableVal.population}}</td>
-  <td>{{tableVal.lat}}</td>
-  <td>{{tableVal.long}}</td>
-  </tr>
-    {% endfor %}
-        <h1>Final Time to get : {{ finalTime2 }}</h1>
-        <h1>Final Tot Time to get : {{ finalTimes3 }}</h1>
-</table>
-    <h1>----------------------------------------------------------------------------------------------</h1>
-    <h1>Increment the population State</h1>
-
-    <form action="/incrange" method="POST">
-                State : <input type="text" name="state" placeholder="Search query" >
-        Max Population : <input type="text" name="number9" placeholder="Search query" >
-        Min Population : <input type="text" name="number10" placeholder="Search query" >
-        Increment Value : <input type="text" name="inc" placeholder="Search query" >
-        <button type="submit">Check</button>
-    </form>
-        <h1> Changed Population</h1>
-
-        <table>
-  <tr>
-    <th>City</th>
-    <th>State</th>
-    <th>Population</th>
-      <th>Lat</th>
-      <th>Lon</th>
-  </tr>
-        {% for tableVal in tableVals4 %}
-  <tr>
-    <td>{{  tableVal.city }}</td>
-      <td>{{tableVal.state}}</td>
-    <td>{{tableVal.population}}</td>
-  <td>{{tableVal.lat}}</td>
-  <td>{{tableVal.long}}</td>
-  </tr>
-    {% endfor %}
-        <h1>Final Time to get : {{ finalTime3 }}</h1>
-
-</table>
-    <h1>----------------------------------------------------------------------------------------------</h1>
-    <h1>Population range with n tuples With Cache memory</h1>
-
-    <form action="/rangepoptupRedis" method="POST">
-                Number of Tuples : <input type="text" name="tupRed" placeholder="Search query" >
-        Max Population : <input type="text" name="number11" placeholder="Search query" >
-        Min Population : <input type="text" name="number12" placeholder="Search query" >
-{#        Increment Value : <input type="text" name="inc" placeholder="Search query" >#}
-        <button type="submit">Check</button>
-    </form>
-    <h1> Population</h1>
-        <table>
-  <tr>
-    <th>City</th>
-    <th>State</th>
-    <th>Population</th>
-      <th>Lat</th>
-      <th>Lon</th>
-  </tr>
-        {% for tableVal in tableVals5 %}
-  <tr>
-    <td>{{  tableVal.city }}</td>
-      <td>{{tableVal.state}}</td>
-    <td>{{tableVal.population}}</td>
-  <td>{{tableVal.lat}}</td>
-  <td>{{tableVal.long}}</td>
-  </tr>
-    {% endfor %}
-        <h1>Final Time to get : {{ finalTime4 }}</h1>
-</table>
-
-    <h1>----------------------------------------------------------------------------------------------</h1>
-    <h1>Cache Memory Range Values</h1>
-
+    <h1>====================================================================</h1>
+    Cache memory
     <form action="/rangepopRedis" method="POST">
-{#                State : <input type="text" name="state" placeholder="Search query" >#}
-        Max Population : <input type="text" name="number15" placeholder="Search query" >
-        Min Population : <input type="text" name="number16" placeholder="Search query" >
-{#        Increment Value : <input type="text" name="inc" placeholder="Search query" >#}
+        Max Lat :<input type="text" name="number11" placeholder="Search query" >
+        Min Lat :<input type="text" name="number22" placeholder="Search query" >
+        Max Lon :<input type="text" name="number33" placeholder="Search query" >
+        Min Lon :<input type="text" name="number44" placeholder="Search query" >
         <button type="submit">Check</button>
     </form>
-    <h1> Changed Population</h1>
-        <table>
+
+    <h1>Cities that are in range</h1>
+<table>
   <tr>
     <th>City</th>
     <th>State</th>
@@ -243,8 +119,165 @@
   <td>{{tableVal.long}}</td>
   </tr>
     {% endfor %}
-        <h1>Final Time to get : {{ finalTime7 }}</h1>
 </table>
+    <h1>Final Time to get : {{ finalTime3 }}</h1>
+        <h1>Final Tot Time to get : {{ finalTimet1 }}</h1>
+{#<h1>----------------------------------------------------------------------------------------------</h1>#}
+{#    <h1>----------------------------------------------------------------------------------------------</h1>#}
+{#    <h1>Range Values</h1>#}
+{##}
+{#    <form action="/rangepop" method="POST">#}
+{#                State : <input type="text" name="state" placeholder="Search query" >#}
+{#        Max Population : <input type="text" name="number5" placeholder="Search query" >#}
+{#        Min Population : <input type="text" name="number6" placeholder="Search query" >#}
+{#        Increment Value : <input type="text" name="inc" placeholder="Search query" >#}
+{#        <button type="submit">Check</button>#}
+{#    </form>#}
+{#    <h1> Changed Population</h1>#}
+{#        <table>#}
+{#  <tr>#}
+{#    <th>City</th>#}
+{#    <th>State</th>#}
+{#    <th>Population</th>#}
+{#      <th>Lat</th>#}
+{#      <th>Lon</th>#}
+{#  </tr>#}
+{#        {% for tableVal in tableVals2 %}#}
+{#  <tr>#}
+{#    <td>{{  tableVal.city }}</td>#}
+{#      <td>{{tableVal.state}}</td>#}
+{#    <td>{{tableVal.population}}</td>#}
+{#  <td>{{tableVal.lat}}</td>#}
+{#  <td>{{tableVal.long}}</td>#}
+{#  </tr>#}
+{#    {% endfor %}#}
+{#        <h1>Final Time to get : {{ finalTime1 }}</h1>#}
+{#        <h1>Final Tot Time to get : {{ finalTimes2 }}</h1>#}
+{#</table>#}
+{#    <h1>----------------------------------------------------------------------------------------------</h1>#}
+{#    <h1>Population range with n tuples</h1>#}
+{##}
+{#    <form action="/rangepoptup" method="POST">#}
+{#                Number of Tuples : <input type="text" name="tup" placeholder="Search query" >#}
+{#        Max Population : <input type="text" name="number7" placeholder="Search query" >#}
+{#        Min Population : <input type="text" name="number8" placeholder="Search query" >#}
+{#        Increment Value : <input type="text" name="inc" placeholder="Search query" >#}
+{#        <button type="submit">Check</button>#}
+{#    </form>#}
+{#    <h1> Changed Population</h1>#}
+{#        <table>#}
+{#  <tr>#}
+{#    <th>City</th>#}
+{#    <th>State</th>#}
+{#    <th>Population</th>#}
+{#      <th>Lat</th>#}
+{#      <th>Lon</th>#}
+{#  </tr>#}
+{#        {% for tableVal in tableVals3 %}#}
+{#  <tr>#}
+{#    <td>{{  tableVal.city }}</td>#}
+{#      <td>{{tableVal.state}}</td>#}
+{#    <td>{{tableVal.population}}</td>#}
+{#  <td>{{tableVal.lat}}</td>#}
+{#  <td>{{tableVal.long}}</td>#}
+{#  </tr>#}
+{#    {% endfor %}#}
+{#        <h1>Final Time to get : {{ finalTime2 }}</h1>#}
+{#        <h1>Final Tot Time to get : {{ finalTimes3 }}</h1>#}
+{#</table>#}
+{#    <h1>----------------------------------------------------------------------------------------------</h1>#}
+{#    <h1>Increment the population State</h1>#}
+{##}
+{#    <form action="/incrange" method="POST">#}
+{#                State : <input type="text" name="state" placeholder="Search query" >#}
+{#        Max Population : <input type="text" name="number9" placeholder="Search query" >#}
+{#        Min Population : <input type="text" name="number10" placeholder="Search query" >#}
+{#        Increment Value : <input type="text" name="inc" placeholder="Search query" >#}
+{#        <button type="submit">Check</button>#}
+{#    </form>#}
+{#        <h1> Changed Population</h1>#}
+{##}
+{#        <table>#}
+{#  <tr>#}
+{#    <th>City</th>#}
+{#    <th>State</th>#}
+{#    <th>Population</th>#}
+{#      <th>Lat</th>#}
+{#      <th>Lon</th>#}
+{#  </tr>#}
+{#        {% for tableVal in tableVals4 %}#}
+{#  <tr>#}
+{#    <td>{{  tableVal.city }}</td>#}
+{#      <td>{{tableVal.state}}</td>#}
+{#    <td>{{tableVal.population}}</td>#}
+{#  <td>{{tableVal.lat}}</td>#}
+{#  <td>{{tableVal.long}}</td>#}
+{#  </tr>#}
+{#    {% endfor %}#}
+{#        <h1>Final Time to get : {{ finalTime3 }}</h1>#}
+{##}
+{#</table>#}
+{#    <h1>----------------------------------------------------------------------------------------------</h1>#}
+{#    <h1>Population range with n tuples With Cache memory</h1>#}
+{##}
+{#    <form action="/rangepoptupRedis" method="POST">#}
+{#                Number of Tuples : <input type="text" name="tupRed" placeholder="Search query" >#}
+{#        Max Population : <input type="text" name="number11" placeholder="Search query" >#}
+{#        Min Population : <input type="text" name="number12" placeholder="Search query" >#}
+{#        Increment Value : <input type="text" name="inc" placeholder="Search query" >#}
+{#        <button type="submit">Check</button>#}
+{#    </form>#}
+{#    <h1> Population</h1>#}
+{#        <table>#}
+{#  <tr>#}
+{#    <th>City</th>#}
+{#    <th>State</th>#}
+{#    <th>Population</th>#}
+{#      <th>Lat</th>#}
+{#      <th>Lon</th>#}
+{#  </tr>#}
+{#        {% for tableVal in tableVals5 %}#}
+{#  <tr>#}
+{#    <td>{{  tableVal.city }}</td>#}
+{#      <td>{{tableVal.state}}</td>#}
+{#    <td>{{tableVal.population}}</td>#}
+{#  <td>{{tableVal.lat}}</td>#}
+{#  <td>{{tableVal.long}}</td>#}
+{#  </tr>#}
+{#    {% endfor %}#}
+{#        <h1>Final Time to get : {{ finalTime4 }}</h1>#}
+{#</table>#}
+{##}
+{#    <h1>----------------------------------------------------------------------------------------------</h1>#}
+{#    <h1>Cache Memory Range Values</h1>#}
+{##}
+{#    <form action="/rangepopRedis" method="POST">#}
+{#                State : <input type="text" name="state" placeholder="Search query" >#}
+{#        Max Population : <input type="text" name="number15" placeholder="Search query" >#}
+{#        Min Population : <input type="text" name="number16" placeholder="Search query" >#}
+{#        Increment Value : <input type="text" name="inc" placeholder="Search query" >#}
+{#        <button type="submit">Check</button>#}
+{#    </form>#}
+{#    <h1> Changed Population</h1>#}
+{#        <table>#}
+{#  <tr>#}
+{#    <th>City</th>#}
+{#    <th>State</th>#}
+{#    <th>Population</th>#}
+{#      <th>Lat</th>#}
+{#      <th>Lon</th>#}
+{#  </tr>#}
+{#        {% for tableVal in tableVals8 %}#}
+{#  <tr>#}
+{#    <td>{{  tableVal.city }}</td>#}
+{#      <td>{{tableVal.state}}</td>#}
+{#    <td>{{tableVal.population}}</td>#}
+{#  <td>{{tableVal.lat}}</td>#}
+{#  <td>{{tableVal.long}}</td>#}
+{#  </tr>#}
+{#    {% endfor %}#}
+{#        <h1>Final Time to get : {{ finalTime7 }}</h1>#}
+{#</table>#}
 {#<h1>----------------------------------------------------------------------------------------------</h1>#}
 {#    <h1>Delete City by name</h1>#}
 {#    <form action="/delete" method="POST" enctype="multipart/form-data">#}
