@@ -109,8 +109,8 @@ def searchNRed():
     temp_result = []
     for j in tableVals2:
         temp_result = temp_result + str(j)
-    redisConnection.set("fetachRedis1", temp_result)
-    redisConnection.get("fetachRedis1")
+    # redisConnection.set("fetachRedis1", temp_result)
+    # redisConnection.get("fetachRedis1")
     finalTimet = "%.1f ms" % (1000 * (timer() - starttimet))
     return render_template('index.html', tableVals8=tableVals2, finalTime3=finalTime, finalTimet1=finalTimet)
 
@@ -341,6 +341,253 @@ def redisValue():
 #     return "success"
 
 
+
+# Start coding here for quiz 4=========================================================================================>
+
+
+@app.route('/alphaQuant', methods=['GET', 'POST'])
+def Question10ab():
+    # cursor = connection.cursor()
+    inputText = (request.form.get("inputVal"))
+    alpha = []
+    percentage = []
+    array = inputText.split(', ')
+    print(array)
+    for element in range(0, len(array)):
+        i = array[element]
+        val = i.split(' ')
+        print(val)
+        alpha.append(val[0])
+        percentage.append(int(val[1]) * 10)
+
+    perStr = np.char.mod('%d', percentage)
+    lable = [];
+    for i in range(len(alpha)):
+        str = alpha[i] + " " + perStr[i] +"%"
+        lable.append(str)
+    plt.pie(percentage, labels=lable)
+    figfile = io.BytesIO()
+    plt.savefig(figfile, format='jpeg')
+    plt.close()
+    figfile.seek(0)
+    figdata_jpeg = base64.b64encode(figfile.getvalue())
+    files = figdata_jpeg.decode('utf-8')
+    # plt.show()
+
+    return render_template('index.html', count=sum, pieChart=files)
+
+
+# @app.route('/Question11ab', methods=['GET', 'POST'])
+# def Question1qab():
+#     # cursor = connection.cursor()
+#     rangeStart = (request.form.get("rangeStart"))
+#     rangeEnd = (request.form.get("rangeEnd"))
+#
+#     cursor = connection.cursor()
+#
+#     # query_str1 = "select store,sum(num) from f where store>=" + rangeStart + " and store<=" + rangeEnd + " group by store"
+#     # query_str2 = "select store,sum(num) from f  group by store"
+#     # cursor.execute(query_str1)
+#     # data1 = cursor.fetchall()
+#     # cursor.execute(query_str2)
+#     # data2 = cursor.fetchall()
+#     labels1 = ["cat", "dog", "rat", "bat"]
+#     heights1 = [10,30,20,15]
+#     labels2 = ["rose", "jasmine", "lotus", "popla"]
+#     heights2 = [14,30,10,50]
+#     # for i in data1:
+#     #     labels1.append(i[0])
+#     #     heights1.append(i[1])
+#     #
+#     # for i in data2:
+#     #     labels2.append(i[0])
+#     #     heights2.append(i[1])
+#
+#     plt.bar(labels1, heights1, color=['blue'])
+#     plt.xlabel("Stores")
+#     plt.ylabel("Amount of food")
+#     plt.title("Total amount of foods for each store in entered range")
+#     figfile = io.BytesIO()
+#     plt.savefig(figfile, format='jpeg')
+#     plt.close()
+#     figfile.seek(0)
+#     figdata_jpeg = base64.b64encode(figfile.getvalue())
+#     files1 = figdata_jpeg.decode('utf-8')
+#
+#     plt.bar(labels2, heights2, color=['blue'])
+#     plt.xlabel("Stores")
+#     plt.ylabel("Amount of food")
+#     plt.title("Total amount of foods for all in entered range")
+#     figfile = io.BytesIO()
+#     plt.savefig(figfile, format='jpeg')
+#     plt.close()
+#     figfile.seek(0)
+#     figdata_jpeg = base64.b64encode(figfile.getvalue())
+#     files2 = figdata_jpeg.decode('utf-8')
+#
+#     return render_template('index.html', output1=files1, output2=files2)
+
+# horizontal ======================================================>
+
+@app.route('/Question11ab', methods=['GET', 'POST'])
+def Question11ab():
+    inputText = (request.form.get("inputValBar"))
+    labels1 = []
+    heights1 = []
+    array = inputText.split(', ')
+    print(array)
+    for element in range(0, len(array)):
+        i = array[element]
+        val = i.split(' ')
+        print(val)
+        labels1.append(val[0])
+        heights1.append(int(val[1]) * 10)
+
+    # labels1 = ["cat", "dog", "rat", "bat"]
+    # heights1 = [10, 30, 20, 15]
+    # labels2 = ["rose", "jasmine", "lotus", "popla"]
+    # heights2 = [14, 30, 10, 50]
+
+    for i in range(len(heights1)):
+
+        key = heights1[i]
+        key1 = labels1[i]
+        j = i - 1
+        while j >= 0 and key < heights1[j]:
+            heights1[j + 1] = heights1[j]
+            labels1[j + 1] = labels1[j]
+            j -= 1
+        heights1[j + 1] = key
+        labels1[j + 1] = key1
+
+    print("height sorted ====> ", heights1)
+    print("words sorted accordingly ====> ", labels1)
+    plt.barh(labels1, heights1, color='red')
+    plt.xlabel("Percentage")
+    plt.ylabel("Words")
+    plt.title("Horizontal Bar Graph")
+    figfile1 = io.BytesIO()
+    plt.savefig(figfile1, format='jpeg')
+    plt.close()
+    figfile1.seek(0)
+    figdata_jpeg1 = base64.b64encode(figfile1.getvalue())
+    files1 = figdata_jpeg1.decode('utf-8')
+
+    # plt.barh(labels2, heights2, color='blue')
+    # plt.xlabel("Amount of food")
+    # plt.ylabel("Stores")
+    # plt.title("Total amount of foods for all in entered range")
+    # figfile2 = io.BytesIO()
+    # plt.savefig(figfile2, format='jpeg')
+    # plt.close()
+    # figfile2.seek(0)
+    # figdata_jpeg2 = base64.b64encode(figfile2.getvalue())
+    # files2 = figdata_jpeg2.decode('utf-8')
+
+    return render_template('index.html', output1=files1)
+
+
+
+@app.route('/Question12ab', methods=['GET', 'POST'])
+def Question12ab():
+    # cursor = connection.cursor()
+    inputText = (request.form.get("inputValDot"))
+    x = []
+    y = []
+    c = []
+    array = inputText.split(', ')
+    print(array)
+    for element in range(0, len(array)):
+        i = array[element]
+        val = i.split(' ')
+        print(val)
+        x.append(int(val[0]))
+        y.append(int(val[1]))
+        c.append(val[2])
+
+    colors=[]
+    for i in range(len(c)):
+        if c[i] == '1':
+            colors.append("green")
+        elif c[i] == '2':
+            colors.append("black")
+        else:
+            colors.append("red")
+    plt.scatter(x, y, c=colors)
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.title("Graph")
+    figfile = io.BytesIO()
+    plt.savefig(figfile, format='jpeg')
+    plt.close()
+    figfile.seek(0)
+    figdata_jpeg = base64.b64encode(figfile.getvalue())
+    files = figdata_jpeg.decode('utf-8')
+
+    return render_template("index.html", output=files)
+
+
+# @app.route('/Question12abc', methods=['GET', 'POST'])
+# def Question12abc():
+#     cursor = connection.cursor()
+#
+#     # query_str = "select * from p"
+#     # cursor.execute(query_str)
+#     # data = cursor.fetchall()
+#     # x = [1, 2, 3, 4, 5, 6, 7 ,8,9]
+#     # y = [5,3,6,9,1,3,5,4,9]
+#     # colors = ["red", "green", "blue","red", "green", "blue","red", "green", "blue"]
+#     # for i in data:
+#     #     x.append(i[0])
+#     #     y.append(i[1])
+#     #     colors.append(i[2])
+#
+#     # plt.hist(x, y, c=colors)
+#     data = np.random.randn(1000)
+#     plt.hist(data, bins=30)
+#
+#     # Set labels and title
+#     plt.xlabel('Value')
+#     plt.ylabel('Frequency')
+#     plt.title('Histogram')
+#     plt.xlabel("X")
+#
+#     plt.ylabel("Y")
+#     plt.title("Graph")
+#     figfile = io.BytesIO()
+#     plt.savefig(figfile, format='jpeg')
+#     plt.close()
+#     figfile.seek(0)
+#     figdata_jpeg = base64.b64encode(figfile.getvalue())
+#     files = figdata_jpeg.decode('utf-8')
+#
+#     return render_template("index.html", output3=files)
+
+# horizontal======================================================>
+
+@app.route('/Question12abc', methods=['GET', 'POST'])
+def Question12abc():
+    cursor = connection.cursor()
+
+    data = np.random.randn(1000)
+    plt.barh(range(len(data)), data, color='blue')
+
+    # Set labels and title
+    plt.xlabel('Frequency')
+    plt.ylabel('Value')
+    plt.title('Horizontal Histogram')
+
+    figfile = io.BytesIO()
+    plt.savefig(figfile, format='jpeg')
+    plt.close()
+    figfile.seek(0)
+    figdata_jpeg = base64.b64encode(figfile.getvalue())
+    files = figdata_jpeg.decode('utf-8')
+
+    return render_template("index.html", output3=files)
+
+
+
 class ValuesOBJ:
 
     # The init method or constructor
@@ -356,174 +603,3 @@ if __name__ == "__main__":
 
 
 
-# Start coding here for quiz 4=========================================================================================>
-
-
-@app.route('/Question10ab', methods=['GET', 'POST'])
-def Question10ab():
-    # cursor = connection.cursor()
-    inputText = (request.form.get("inputText")).replace(" ", "")
-    inputText = inputText.lower()
-    all_freq = {}
-    all_freq["Alphabet"] = 0
-    all_freq["Number"] = 0
-    all_freq["Punctuation"] = 0
-    print(inputText)
-    for element in range(0, len(inputText)):
-        i = inputText[element]
-        if i.isalpha():
-            all_freq["Alphabet"] += 1
-        elif i.isdigit():
-            all_freq["Number"] += 1
-        elif i == "." or i == "," or i == "?" or i == "!" or i == "$" or i == "*":
-            all_freq["Punctuation"] += 1
-    # print(string_name[element])
-    # for i in inputText:
-
-    print("freq is ", all_freq)
-    sum = 0
-    labels = []
-    percentageList = []
-    freqCountList = []
-    labels = list(all_freq.keys())
-    for i in labels:
-        sum = sum + all_freq[i]
-
-        freqCountList.append((i, all_freq[i]))
-    labellist = []
-    for i in range(len(freqCountList)):
-        a = (freqCountList[i][1] / sum) * 100
-        a = round(a, 2)
-        percentageList.append(a)
-        labellist.append(labels[i] + " " + str(a) + "%")
-
-    colors = ['#ff6666', '#ffcc99', '#99ff99']
-    print("labels", labels)
-    print("percentage", percentageList)
-    plt.pie(percentageList, labels=labellist, colors=colors)
-    figfile = io.BytesIO()
-    plt.savefig(figfile, format='jpeg')
-    plt.close()
-    figfile.seek(0)
-    figdata_jpeg = base64.b64encode(figfile.getvalue())
-    files = figdata_jpeg.decode('utf-8')
-    # plt.show()
-
-    return render_template('index.html', data=freqCountList, count=sum, pieChart=files)
-
-
-@app.route('/Question11ab', methods=['GET', 'POST'])
-def Question1qab():
-    # cursor = connection.cursor()
-    rangeStart = (request.form.get("rangeStart"))
-    rangeEnd = (request.form.get("rangeEnd"))
-
-    cursor = connection.cursor()
-
-    # query_str1 = "select store,sum(num) from f where store>=" + rangeStart + " and store<=" + rangeEnd + " group by store"
-    # query_str2 = "select store,sum(num) from f  group by store"
-    # cursor.execute(query_str1)
-    # data1 = cursor.fetchall()
-    # cursor.execute(query_str2)
-    # data2 = cursor.fetchall()
-    labels1 = ["cat", "dog", "rat", "bat"]
-    heights1 = [10,30,20,15]
-    labels2 = ["rose", "jasmine", "lotus", "popla"]
-    heights2 = [14,30,10,50]
-    # for i in data1:
-    #     labels1.append(i[0])
-    #     heights1.append(i[1])
-    #
-    # for i in data2:
-    #     labels2.append(i[0])
-    #     heights2.append(i[1])
-
-    plt.bar(labels1, heights1, color=['blue'])
-    plt.xlabel("Stores")
-    plt.ylabel("Amount of food")
-    plt.title("Total amount of foods for each store in entered range")
-    figfile = io.BytesIO()
-    plt.savefig(figfile, format='jpeg')
-    plt.close()
-    figfile.seek(0)
-    figdata_jpeg = base64.b64encode(figfile.getvalue())
-    files1 = figdata_jpeg.decode('utf-8')
-
-    plt.bar(labels2, heights2, color=['blue'])
-    plt.xlabel("Stores")
-    plt.ylabel("Amount of food")
-    plt.title("Total amount of foods for all in entered range")
-    figfile = io.BytesIO()
-    plt.savefig(figfile, format='jpeg')
-    plt.close()
-    figfile.seek(0)
-    figdata_jpeg = base64.b64encode(figfile.getvalue())
-    files2 = figdata_jpeg.decode('utf-8')
-
-    return render_template('index.html', output1=files1, output2=files2)
-
-
-@app.route('/Question12ab', methods=['GET', 'POST'])
-def Question12ab():
-    cursor = connection.cursor()
-
-    # query_str = "select * from p"
-    # cursor.execute(query_str)
-    # data = cursor.fetchall()
-    x = [1, 2, 3, 4, 5, 6, 7 ,8,9]
-    y = [5,3,6,9,1,3,5,4,9]
-    colors = ["red", "green", "blue","red", "green", "blue","red", "green", "blue"]
-    # for i in data:
-    #     x.append(i[0])
-    #     y.append(i[1])
-    #     colors.append(i[2])
-
-    plt.scatter(x, y, c=colors)
-    plt.xlabel("X")
-    plt.ylabel("Y")
-    plt.title("Graph")
-    figfile = io.BytesIO()
-    plt.savefig(figfile, format='jpeg')
-    plt.close()
-    figfile.seek(0)
-    figdata_jpeg = base64.b64encode(figfile.getvalue())
-    files = figdata_jpeg.decode('utf-8')
-
-    return render_template("index.html", output=files)
-
-
-@app.route('/Question12abc', methods=['GET', 'POST'])
-def Question12abc():
-    cursor = connection.cursor()
-
-    # query_str = "select * from p"
-    # cursor.execute(query_str)
-    # data = cursor.fetchall()
-    # x = [1, 2, 3, 4, 5, 6, 7 ,8,9]
-    # y = [5,3,6,9,1,3,5,4,9]
-    # colors = ["red", "green", "blue","red", "green", "blue","red", "green", "blue"]
-    # for i in data:
-    #     x.append(i[0])
-    #     y.append(i[1])
-    #     colors.append(i[2])
-
-    # plt.hist(x, y, c=colors)
-    data = np.random.randn(1000)
-    plt.hist(data, bins=30)
-
-    # Set labels and title
-    plt.xlabel('Value')
-    plt.ylabel('Frequency')
-    plt.title('Histogram')
-    plt.xlabel("X")
-
-    plt.ylabel("Y")
-    plt.title("Graph")
-    figfile = io.BytesIO()
-    plt.savefig(figfile, format='jpeg')
-    plt.close()
-    figfile.seek(0)
-    figdata_jpeg = base64.b64encode(figfile.getvalue())
-    files = figdata_jpeg.decode('utf-8')
-
-    return render_template("index.html", output3=files)

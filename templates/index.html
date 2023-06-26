@@ -6,7 +6,7 @@
     <div class="card"
         style="text-align: center">
     <div class="card-body" style="text-align:center;">
-        <h2 class="card-title" style="text-align:center">Quiz 3</h2>
+        <h2 class="card-title" style="text-align:center">Quiz 4</h2>
         <div>
             <h2>
                 <p class="card-text" style="text-align:center">Name: Achal Bhujangaswami Raghuveer</p>
@@ -22,7 +22,6 @@
 
 {%block body%}
 
-<h1>Cloud Computing Quiz 4</h1>
 {#    <h1>----------------------------------------------------------------------------------------------------------------</h1>#}
 {#<form action="/search" method="POST">#}
 {#    Enter Population Range  : <input type="text" name="name" placeholder="city name" required>#}
@@ -338,83 +337,44 @@
 {#  });#}
 {#</script>#}
 
-  <form action="/Question10ab" , method=post>
-                                                <input class="form-control mr-sm-2" style="width: 50%;" id="inputText"
-                                                    name="inputText" type="text" placeholder="Type text here"
+  <form action="/alphaQuant" , method=post>
+                                                <input class="form-control mr-sm-2"  id="inputText"
+                                                    name="inputVal" type="text" placeholder="Type text here"
                                                     aria-label="inputText">
                                                 <button class="btn btn-outline-success my-2 my-sm-0"
                                                     type="submit">Search</button>
                                             </form>
-<h1>================================================================================================================</h1>
-
-<h1>Graph</h1>
-<div class="ShowAllTable" style="width: 110rem; align-items: center;">
-       <h3> Total Character count {{count}}</h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Character</th>
-                    <th scope="col">Frequency</th>
-
-
-                </tr>
-            </thead>
-            {% for item in data %}
-            <tbody>
-                <tr>
-                    <td>{{item[0]}}</td>
-                    <td>{{item[1]}}</td>
-                </tr>
-
-            </tbody>
-            {% endfor %}
-        </table>
-    </div>
     <div style="text-align: center">
-        <img   style="width: 60rem; height: 60rem; align-items: center" src="data:image/jpeg;base64,{{ pieChart }}">
+        <img   style="width: 70%; height: 70%; align-items: center" src="data:image/jpeg;base64,{{ pieChart }}">
     </div>
 <h1>================================================================================================================</h1>
-<h1>Q2</h1>
+<h1>Bar Graph</h1>
 <form action="/Question11ab" , method=post>
-                                                <input class="form-control mr-sm-2" style="width: 50%;" id="rangeStart"
-                                                    name="rangeStart" type="number" placeholder="Start Range"
-                                                    aria-label="rangeStart">
-                                                <input class="form-control mr-sm-2" style="width: 50%;" id="rangeEnd"
-                                                    name="rangeEnd" type="number" placeholder="Start Range"
-                                                    aria-label="rangeEnd">
+                                                <input class="form-control mr-sm-2"  id="inputText"
+                                                    name="inputValBar" type="text" placeholder="Type text here"
+                                                    aria-label="inputText">
                                                 <button class="btn btn-outline-success my-2 my-sm-0"
                                                     type="submit">Search</button>
                                             </form>
-
-<h2> For the Entered Range Stores</h2>
-    <h3>bar represents the the total amount of that food </h3>
+    <h3>Horizontal Bar Graph Of words with percentage </h3>
     <div style="text-align: center">
-        <img src="data:image/jpeg;base64,{{ output1 }}">
-    </div>
-    <h2> For All Stores</h2>
-    <h3>bar represents the the total amount of that food </h3>
-    <div style="text-align: center">
-        <img src="data:image/jpeg;base64,{{ output2 }}">
+        <img style="width: 70%; height: 70%; align-items: center" src="data:image/jpeg;base64,{{ output1 }}">
     </div>
 <h1>============================================================================================================</h1>
-<form action="/Question12ab" , method=post>
+<h1>Plot Scatter Chart</h1>
+    <form action="/Question12ab" , method=post>
 
-                                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Show
-                                                    Scatter</button>
+                                                <input class="form-control mr-sm-2"  id="inputText"
+                                                    name="inputValDot" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"
+                                                    aria-label="inputText">
+                                                <button class="btn btn-outline-success my-2 my-sm-0"
+                                                    type="submit">Search</button>
                                             </form>
-<h1>---------------------------------------------------------------------------------------------------------------</h1>
-<div style="text-align: center">
+    <div style="text-align: center">
         <img src="data:image/jpeg;base64,{{ output }}">
     </div>
-<h1>============================================================================================================</h1>
-<form action="/Question12abc" , method=post>
-
-                                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Show
-                                                    Scatter</button>
-                                            </form>
 <h1>---------------------------------------------------------------------------------------------------------------</h1>
-<div style="text-align: center">
-        <img src="data:image/jpeg;base64,{{ output3 }}">
-    </div>
+
+
 
 {%endblock%}
