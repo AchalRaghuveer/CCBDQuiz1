@@ -358,8 +358,12 @@ def Question10ab():
         val = i.split(' ')
         print(val)
         alpha.append(val[0])
-        percentage.append(int(val[1]) * 10)
-
+        percentage.append(int(val[1]))
+    totVal = 0
+    for i in range(len(percentage)):
+        totVal += percentage[i]
+    for i in range(len(percentage)):
+        percentage[i] = percentage[i]/totVal * 100
     perStr = np.char.mod('%d', percentage)
     lable = [];
     for i in range(len(alpha)):
