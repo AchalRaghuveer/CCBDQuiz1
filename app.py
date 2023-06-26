@@ -1,4 +1,4 @@
-import redis
+# import redis
 import hashlib
 import pickle
 from timeit import default_timer as timer
