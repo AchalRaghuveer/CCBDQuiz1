@@ -1,6 +1,7 @@
 {%extends 'base.html'%}
 
 {%block head%}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.min.js" integrity="sha512-mlz/Fs1VtBou2TrUkGzX4VoGvybkD9nkeXWJm3rle0DPHssYYx4j+8kIS15T78ttGfmOjH0lLaBXGcShaVkdkg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <div class="heading" style="text-align: center;align-content: center;">
     <div class="card"
         style="text-align: center">
@@ -61,67 +62,67 @@
 {#  </tr>#}
 {#    {% endfor %}#}
 {#</table>#}
-<h1>----------------------------------------------------------------------------------------------</h1>
-    <form action="/rangepop2" method="POST">
-        Max Lat :<input type="text" name="number1" placeholder="Search query" >
-        Min Lat :<input type="text" name="number2" placeholder="Search query" >
-        Max Lon :<input type="text" name="number3" placeholder="Search query" >
-        Min Lon :<input type="text" name="number4" placeholder="Search query" >
-        <button type="submit">Check</button>
-    </form>
-
-    <h1>Cities that are in range</h1>
-<table>
-  <tr>
-    <th>City</th>
-    <th>State</th>
-    <th>Population</th>
-      <th>Lat</th>
-      <th>Lon</th>
-  </tr>
-        {% for tableVal in tableVals99 %}
-  <tr>
-    <td>{{  tableVal.city }}</td>
-      <td>{{tableVal.state}}</td>
-    <td>{{tableVal.population}}</td>
-  <td>{{tableVal.lat}}</td>
-  <td>{{tableVal.long}}</td>
-  </tr>
-    {% endfor %}
-</table>
-    <h1>Final Time to get : {{ finalTime1 }}</h1>
-        <h1>Final Tot Time to get : {{ finalTimes2 }}</h1>
-    <h1>====================================================================</h1>
-    Cache memory
-    <form action="/rangepopRedis" method="POST">
-        Max Lat :<input type="text" name="number11" placeholder="Search query" >
-        Min Lat :<input type="text" name="number22" placeholder="Search query" >
-        Max Lon :<input type="text" name="number33" placeholder="Search query" >
-        Min Lon :<input type="text" name="number44" placeholder="Search query" >
-        <button type="submit">Check</button>
-    </form>
-
-    <h1>Cities that are in range</h1>
-<table>
-  <tr>
-    <th>City</th>
-    <th>State</th>
-    <th>Population</th>
-      <th>Lat</th>
-      <th>Lon</th>
-  </tr>
-        {% for tableVal in tableVals8 %}
-  <tr>
-    <td>{{  tableVal.city }}</td>
-      <td>{{tableVal.state}}</td>
-    <td>{{tableVal.population}}</td>
-  <td>{{tableVal.lat}}</td>
-  <td>{{tableVal.long}}</td>
-  </tr>
-    {% endfor %}
-</table>
-    <h1>Final Time to get : {{ finalTime3 }}</h1>
-        <h1>Final Tot Time to get : {{ finalTimet1 }}</h1>
+{#<h1>----------------------------------------------------------------------------------------------</h1>#}
+{#    <form action="/rangepop2" method="POST">#}
+{#        Max Lat :<input type="text" name="number1" placeholder="Search query" >#}
+{#        Min Lat :<input type="text" name="number2" placeholder="Search query" >#}
+{#        Max Lon :<input type="text" name="number3" placeholder="Search query" >#}
+{#        Min Lon :<input type="text" name="number4" placeholder="Search query" >#}
+{#        <button type="submit">Check</button>#}
+{#    </form>#}
+{##}
+{#    <h1>Cities that are in range</h1>#}
+{#<table>#}
+{#  <tr>#}
+{#    <th>City</th>#}
+{#    <th>State</th>#}
+{#    <th>Population</th>#}
+{#      <th>Lat</th>#}
+{#      <th>Lon</th>#}
+{#  </tr>#}
+{#        {% for tableVal in tableVals99 %}#}
+{#  <tr>#}
+{#    <td>{{  tableVal.city }}</td>#}
+{#      <td>{{tableVal.state}}</td>#}
+{#    <td>{{tableVal.population}}</td>#}
+{#  <td>{{tableVal.lat}}</td>#}
+{#  <td>{{tableVal.long}}</td>#}
+{#  </tr>#}
+{#    {% endfor %}#}
+{#</table>#}
+{#    <h1>Final Time to get : {{ finalTime1 }}</h1>#}
+{#        <h1>Final Tot Time to get : {{ finalTimes2 }}</h1>#}
+{#    <h1>====================================================================</h1>#}
+{#    Cache memory#}
+{#    <form action="/rangepopRedis" method="POST">#}
+{#        Max Lat :<input type="text" name="number11" placeholder="Search query" >#}
+{#        Min Lat :<input type="text" name="number22" placeholder="Search query" >#}
+{#        Max Lon :<input type="text" name="number33" placeholder="Search query" >#}
+{#        Min Lon :<input type="text" name="number44" placeholder="Search query" >#}
+{#        <button type="submit">Check</button>#}
+{#    </form>#}
+{##}
+{#    <h1>Cities that are in range</h1>#}
+{#<table>#}
+{#  <tr>#}
+{#    <th>City</th>#}
+{#    <th>State</th>#}
+{#    <th>Population</th>#}
+{#      <th>Lat</th>#}
+{#      <th>Lon</th>#}
+{#  </tr>#}
+{#        {% for tableVal in tableVals8 %}#}
+{#  <tr>#}
+{#    <td>{{  tableVal.city }}</td>#}
+{#      <td>{{tableVal.state}}</td>#}
+{#    <td>{{tableVal.population}}</td>#}
+{#  <td>{{tableVal.lat}}</td>#}
+{#  <td>{{tableVal.long}}</td>#}
+{#  </tr>#}
+{#    {% endfor %}#}
+{#</table>#}
+{#    <h1>Final Time to get : {{ finalTime3 }}</h1>#}
+{#        <h1>Final Tot Time to get : {{ finalTimet1 }}</h1>#}
 {#<h1>----------------------------------------------------------------------------------------------</h1>#}
 {#    <h1>----------------------------------------------------------------------------------------------</h1>#}
 {#    <h1>Range Values</h1>#}
@@ -307,5 +308,113 @@
 {#        Lat : <input type="text" name="latAdd" placeholder="Search query" >#}
 {#        Lon : <input type="text" name="lonAdd" placeholder="Search query" >#}
 {#        <button type="submit">Check</button>#}
+
+{#    <div>#}
+{#  <canvas id="myChart"></canvas>#}
+{#</div>#}
+{##}
+{#<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>#}
+{##}
+{#<script>#}
+{#  const ctx = document.getElementById('myChart');#}
+{##}
+{#  new Chart(ctx, {#}
+{#    type: 'bar',#}
+{#    data: {#}
+{#      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],#}
+{#      datasets: [{#}
+{#        label: '# of Votes',#}
+{#        data: [12, 19, 3, 5, 2, 3],#}
+{#        borderWidth: 1#}
+{#      }]#}
+{#    },#}
+{#    options: {#}
+{#      scales: {#}
+{#        y: {#}
+{#          beginAtZero: true#}
+{#        }#}
+{#      }#}
+{#    }#}
+{#  });#}
+{#</script>#}
+
+  <form action="/Question10ab" , method=post>
+                                                <input class="form-control mr-sm-2" style="width: 50%;" id="inputText"
+                                                    name="inputText" type="text" placeholder="Type text here"
+                                                    aria-label="inputText">
+                                                <button class="btn btn-outline-success my-2 my-sm-0"
+                                                    type="submit">Search</button>
+                                            </form>
+<h1>================================================================================================================</h1>
+
+<h1>Graph</h1>
+<div class="ShowAllTable" style="width: 110rem; align-items: center;">
+       <h3> Total Character count {{count}}</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Character</th>
+                    <th scope="col">Frequency</th>
+
+
+                </tr>
+            </thead>
+            {% for item in data %}
+            <tbody>
+                <tr>
+                    <td>{{item[0]}}</td>
+                    <td>{{item[1]}}</td>
+                </tr>
+
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+    <div style="text-align: center">
+        <img   style="width: 60rem; height: 60rem; align-items: center" src="data:image/jpeg;base64,{{ pieChart }}">
+    </div>
+<h1>================================================================================================================</h1>
+<h1>Q2</h1>
+<form action="/Question11ab" , method=post>
+                                                <input class="form-control mr-sm-2" style="width: 50%;" id="rangeStart"
+                                                    name="rangeStart" type="number" placeholder="Start Range"
+                                                    aria-label="rangeStart">
+                                                <input class="form-control mr-sm-2" style="width: 50%;" id="rangeEnd"
+                                                    name="rangeEnd" type="number" placeholder="Start Range"
+                                                    aria-label="rangeEnd">
+                                                <button class="btn btn-outline-success my-2 my-sm-0"
+                                                    type="submit">Search</button>
+                                            </form>
+
+<h2> For the Entered Range Stores</h2>
+    <h3>bar represents the the total amount of that food </h3>
+    <div style="text-align: center">
+        <img src="data:image/jpeg;base64,{{ output1 }}">
+    </div>
+    <h2> For All Stores</h2>
+    <h3>bar represents the the total amount of that food </h3>
+    <div style="text-align: center">
+        <img src="data:image/jpeg;base64,{{ output2 }}">
+    </div>
+<h1>============================================================================================================</h1>
+<form action="/Question12ab" , method=post>
+
+                                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Show
+                                                    Scatter</button>
+                                            </form>
+<h1>---------------------------------------------------------------------------------------------------------------</h1>
+<div style="text-align: center">
+        <img src="data:image/jpeg;base64,{{ output }}">
+    </div>
+<h1>============================================================================================================</h1>
+<form action="/Question12abc" , method=post>
+
+                                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Show
+                                                    Scatter</button>
+                                            </form>
+<h1>---------------------------------------------------------------------------------------------------------------</h1>
+<div style="text-align: center">
+        <img src="data:image/jpeg;base64,{{ output3 }}">
+    </div>
 
 {%endblock%}

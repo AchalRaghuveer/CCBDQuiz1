@@ -5,6 +5,12 @@ from timeit import default_timer as timer
 from flask import Flask, render_template, request
 import pyodbc
 from azure.storage.blob import BlobServiceClient
+import random
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import io
+import numpy as np
+import base64
 
 app = Flask(__name__)
 
@@ -100,12 +106,12 @@ def searchNRed():
     for i in range(len(dataNear)):
         val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
         tableVals2.append(val)
-    # temp_result = []
-    # for j in tableVals2:
-    #     temp_result = temp_result + str(j)
-    # redisConnection.set("fetachRedis1", temp_result)
-    # redisConnection.get("fetachRedis1")
-    finalTimet = "%.1f ms" % (1000 * (timer() - starttimet + lattt))
+    temp_result = []
+    for j in tableVals2:
+        temp_result = temp_result + str(j)
+    redisConnection.set("fetachRedis1", temp_result)
+    redisConnection.get("fetachRedis1")
+    finalTimet = "%.1f ms" % (1000 * (timer() - starttimet))
     return render_template('index.html', tableVals8=tableVals2, finalTime3=finalTime, finalTimet1=finalTimet)
 
 
@@ -347,3 +353,177 @@ class ValuesOBJ:
         self.long = long
 if __name__ == "__main__":
     app.run(debug = True)
+
+
+
+# Start coding here for quiz 4=========================================================================================>
+
+
+@app.route('/Question10ab', methods=['GET', 'POST'])
+def Question10ab():
+    # cursor = connection.cursor()
+    inputText = (request.form.get("inputText")).replace(" ", "")
+    inputText = inputText.lower()
+    all_freq = {}
+    all_freq["Alphabet"] = 0
+    all_freq["Number"] = 0
+    all_freq["Punctuation"] = 0
+    print(inputText)
+    for element in range(0, len(inputText)):
+        i = inputText[element]
+        if i.isalpha():
+            all_freq["Alphabet"] += 1
+        elif i.isdigit():
+            all_freq["Number"] += 1
+        elif i == "." or i == "," or i == "?" or i == "!" or i == "$" or i == "*":
+            all_freq["Punctuation"] += 1
+    # print(string_name[element])
+    # for i in inputText:
+
+    print("freq is ", all_freq)
+    sum = 0
+    labels = []
+    percentageList = []
+    freqCountList = []
+    labels = list(all_freq.keys())
+    for i in labels:
+        sum = sum + all_freq[i]
+
+        freqCountList.append((i, all_freq[i]))
+    labellist = []
+    for i in range(len(freqCountList)):
+        a = (freqCountList[i][1] / sum) * 100
+        a = round(a, 2)
+        percentageList.append(a)
+        labellist.append(labels[i] + " " + str(a) + "%")
+
+    colors = ['#ff6666', '#ffcc99', '#99ff99']
+    print("labels", labels)
+    print("percentage", percentageList)
+    plt.pie(percentageList, labels=labellist, colors=colors)
+    figfile = io.BytesIO()
+    plt.savefig(figfile, format='jpeg')
+    plt.close()
+    figfile.seek(0)
+    figdata_jpeg = base64.b64encode(figfile.getvalue())
+    files = figdata_jpeg.decode('utf-8')
+    # plt.show()
+
+    return render_template('index.html', data=freqCountList, count=sum, pieChart=files)
+
+
+@app.route('/Question11ab', methods=['GET', 'POST'])
+def Question1qab():
+    # cursor = connection.cursor()
+    rangeStart = (request.form.get("rangeStart"))
+    rangeEnd = (request.form.get("rangeEnd"))
+
+    cursor = connection.cursor()
+
+    # query_str1 = "select store,sum(num) from f where store>=" + rangeStart + " and store<=" + rangeEnd + " group by store"
+    # query_str2 = "select store,sum(num) from f  group by store"
+    # cursor.execute(query_str1)
+    # data1 = cursor.fetchall()
+    # cursor.execute(query_str2)
+    # data2 = cursor.fetchall()
+    labels1 = ["cat", "dog", "rat", "bat"]
+    heights1 = [10,30,20,15]
+    labels2 = ["rose", "jasmine", "lotus", "popla"]
+    heights2 = [14,30,10,50]
+    # for i in data1:
+    #     labels1.append(i[0])
+    #     heights1.append(i[1])
+    #
+    # for i in data2:
+    #     labels2.append(i[0])
+    #     heights2.append(i[1])
+
+    plt.bar(labels1, heights1, color=['blue'])
+    plt.xlabel("Stores")
+    plt.ylabel("Amount of food")
+    plt.title("Total amount of foods for each store in entered range")
+    figfile = io.BytesIO()
+    plt.savefig(figfile, format='jpeg')
+    plt.close()
+    figfile.seek(0)
+    figdata_jpeg = base64.b64encode(figfile.getvalue())
+    files1 = figdata_jpeg.decode('utf-8')
+
+    plt.bar(labels2, heights2, color=['blue'])
+    plt.xlabel("Stores")
+    plt.ylabel("Amount of food")
+    plt.title("Total amount of foods for all in entered range")
+    figfile = io.BytesIO()
+    plt.savefig(figfile, format='jpeg')
+    plt.close()
+    figfile.seek(0)
+    figdata_jpeg = base64.b64encode(figfile.getvalue())
+    files2 = figdata_jpeg.decode('utf-8')
+
+    return render_template('index.html', output1=files1, output2=files2)
+
+
+@app.route('/Question12ab', methods=['GET', 'POST'])
+def Question12ab():
+    cursor = connection.cursor()
+
+    # query_str = "select * from p"
+    # cursor.execute(query_str)
+    # data = cursor.fetchall()
+    x = [1, 2, 3, 4, 5, 6, 7 ,8,9]
+    y = [5,3,6,9,1,3,5,4,9]
+    colors = ["red", "green", "blue","red", "green", "blue","red", "green", "blue"]
+    # for i in data:
+    #     x.append(i[0])
+    #     y.append(i[1])
+    #     colors.append(i[2])
+
+    plt.scatter(x, y, c=colors)
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.title("Graph")
+    figfile = io.BytesIO()
+    plt.savefig(figfile, format='jpeg')
+    plt.close()
+    figfile.seek(0)
+    figdata_jpeg = base64.b64encode(figfile.getvalue())
+    files = figdata_jpeg.decode('utf-8')
+
+    return render_template("index.html", output=files)
+
+
+@app.route('/Question12abc', methods=['GET', 'POST'])
+def Question12abc():
+    cursor = connection.cursor()
+
+    # query_str = "select * from p"
+    # cursor.execute(query_str)
+    # data = cursor.fetchall()
+    # x = [1, 2, 3, 4, 5, 6, 7 ,8,9]
+    # y = [5,3,6,9,1,3,5,4,9]
+    # colors = ["red", "green", "blue","red", "green", "blue","red", "green", "blue"]
+    # for i in data:
+    #     x.append(i[0])
+    #     y.append(i[1])
+    #     colors.append(i[2])
+
+    # plt.hist(x, y, c=colors)
+    data = np.random.randn(1000)
+    plt.hist(data, bins=30)
+
+    # Set labels and title
+    plt.xlabel('Value')
+    plt.ylabel('Frequency')
+    plt.title('Histogram')
+    plt.xlabel("X")
+
+    plt.ylabel("Y")
+    plt.title("Graph")
+    figfile = io.BytesIO()
+    plt.savefig(figfile, format='jpeg')
+    plt.close()
+    figfile.seek(0)
+    figdata_jpeg = base64.b64encode(figfile.getvalue())
+    files = figdata_jpeg.decode('utf-8')
+
+    return render_template("index.html", output3=files)
