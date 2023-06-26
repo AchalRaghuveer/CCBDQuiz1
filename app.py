@@ -466,10 +466,11 @@ def Question11ab():
 
     print("height sorted ====> ", heights1)
     print("words sorted accordingly ====> ", labels1)
-    plt.barh(labels1, heights1, color='red')
+    barsh = plt.barh(labels1, heights1, color='red')
     plt.xlabel("Percentage")
     plt.ylabel("Words")
     plt.title("Horizontal Bar Graph")
+    plt.bar_label(barsh, labels=[f"{h}" for h in heights1], label_type="edge")
     figfile1 = io.BytesIO()
     plt.savefig(figfile1, format='jpeg')
     plt.close()
