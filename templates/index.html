@@ -6,7 +6,7 @@
     <div class="card"
         style="text-align: center">
     <div class="card-body" style="text-align:center;">
-        <h2 class="card-title" style="text-align:center">Quiz 4</h2>
+        <h2 class="card-title" style="text-align:center">Quiz 5</h2>
         <div>
             <h2>
                 <p class="card-text" style="text-align:center">Name: Achal Bhujangaswami Raghuveer</p>
@@ -337,44 +337,89 @@
 {#  });#}
 {#</script>#}
 
-  <form action="/alphaQuant" , method=post>
-                                                <input class="form-control mr-sm-2"  id="inputText"
-                                                    name="inputVal" type="text" placeholder="Type text here"
-                                                    aria-label="inputText">
-                                                <button class="btn btn-outline-success my-2 my-sm-0"
-                                                    type="submit">Search</button>
-                                            </form>
-    <div style="text-align: center">
-        <img   style="width: 70%; height: 70%; align-items: center" src="data:image/jpeg;base64,{{ pieChart }}">
-    </div>
-<h1>================================================================================================================</h1>
-<h1>Bar Graph</h1>
-<form action="/Question11ab" , method=post>
-                                                <input class="form-control mr-sm-2"  id="inputText"
-                                                    name="inputValBar" type="text" placeholder="Type text here"
-                                                    aria-label="inputText">
-                                                <button class="btn btn-outline-success my-2 my-sm-0"
-                                                    type="submit">Search</button>
-                                            </form>
-    <h3>Horizontal Bar Graph Of words with percentage </h3>
-    <div style="text-align: center">
-        <img style="width: 70%; height: 70%; align-items: center" src="data:image/jpeg;base64,{{ output1 }}">
-    </div>
-<h1>============================================================================================================</h1>
-<h1>Plot Scatter Chart</h1>
-    <form action="/Question12ab" , method=post>
+{#  <form action="/alphaQuant" , method=post>#}
+{#                                                <input class="form-control mr-sm-2"  id="inputText"#}
+{#                                                    name="inputVal" type="text" placeholder="Type text here"#}
+{#                                                    aria-label="inputText">#}
+{#                                                <button class="btn btn-outline-success my-2 my-sm-0"#}
+{#                                                    type="submit">Search</button>#}
+{#                                            </form>#}
+{#    <div style="text-align: center">#}
+{#        <img   style="width: 70%; height: 70%; align-items: center" src="data:image/jpeg;base64,{{ pieChart }}">#}
+{#    </div>#}
+{#<h1>================================================================================================================</h1>#}
+{#<h1>Bar Graph</h1>#}
+{#<form action="/barOP" , method=post>#}
+{#                                                <input class="form-control mr-sm-2"  id="inputText"#}
+{#                                                    name="inputValBar" type="text" placeholder="apple 4, gopi 5....."#}
+{#                                                    aria-label="inputText">#}
+{#                                                <button class="btn btn-outline-success my-2 my-sm-0"#}
+{#                                                    type="submit">Search</button>#}
+{#                                            </form>#}
+{#    <h3>Horizontal Bar Graph Of words with percentage </h3>#}
+{#    <div style="text-align: center">#}
+{#        <img style="width: 70%; height: 70%; align-items: center" src="data:image/jpeg;base64,{{ output1 }}">#}
+{#    </div>#}
+{#<h1>============================================================================================================</h1>#}
+{#<h1>Plot Scatter Chart</h1>#}
+{#    <form action="/scatterPlot" , method=post>#}
+{##}
+{#                                                <input class="form-control mr-sm-2"  id="inputText"#}
+{#                                                    name="inputValDot" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"#}
+{#                                                    aria-label="inputText">#}
+{#                                                <button class="btn btn-outline-success my-2 my-sm-0"#}
+{#                                                    type="submit">Search</button>#}
+{#                                            </form>#}
+{#    <div style="text-align: center">#}
+{#        <img src="data:image/jpeg;base64,{{ output }}">#}
+{#    </div>#}
+{#<h1>---------------------------------------------------------------------------------------------------------------</h1>#}
 
-                                                <input class="form-control mr-sm-2"  id="inputText"
-                                                    name="inputValDot" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"
-                                                    aria-label="inputText">
-                                                <button class="btn btn-outline-success my-2 my-sm-0"
-                                                    type="submit">Search</button>
-                                            </form>
-    <div style="text-align: center">
-        <img src="data:image/jpeg;base64,{{ output }}">
-    </div>
-<h1>---------------------------------------------------------------------------------------------------------------</h1>
+<h1>Text Analysis</h1>
+    <form method="POST" action="/">
+      <input type="submit" value="Search">
+    </form>
 
+    {% if top_nouns %}
+    <h2>Top N Nouns</h2>
+    <ul>
+      {% for noun, count in top_nouns %}
+      <li>{{ noun }} (Count: {{ count }})</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if char_stats %}
+    <h2>Character Occurrences</h2>
+    <ul>
+      {% for stat in char_stats %}
+      <li>Character: {{ stat.char }}, Count: {{ stat.count }}, Percentage: {{ stat.percentage }}%</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if modified_document %}
+    <h2>Modified Document</h2>
+    <pre>{{ modified_document }}</pre>
+    {% endif %}
+
+    {% if lines_with_word %}
+    <h2>Lines Containing the Word "{{ word }}"</h2>
+    <ul>
+      {% for line in lines_with_word %}
+      <li>{{ line }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if lines_containing_word %}
+    <h2>Lines Containing the Word "{{ word }}" (First {{ N }} lines)</h2>
+    <ul>
+      {% for line in lines_containing_word %}
+      <li>{{ line }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
 
 
 {%endblock%}
