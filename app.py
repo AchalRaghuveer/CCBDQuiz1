@@ -252,7 +252,6 @@ def index():
         #     story = file.read()
         story = ""
         response = requests.get('https://abr2435assign1.blob.core.windows.net/quiz1container/demoTXTFILE.txt')
-
         if response.status_code == 200:
             content = response.text
             # Process the file content here
@@ -288,7 +287,7 @@ def index():
         modified_document, lines_with_word = character_replace(story, 'ä', 'ss')
 
         # Get lines with word
-        lines_containing_word = get_lines_with_word(story, N, word)
+        lines_containing_word = get_lines_with_word(story, N, "aie")
 
         return render_template('index.html', top_nouns=top_nouns, char_stats=char_stats,
                                modified_document=modified_document, lines_with_word=lines_with_word,
@@ -327,23 +326,46 @@ def character_replace(story, char_to_replace, replacement):
 
 def get_lines_with_word(story, N, word):
     lines = []
-    # with open('https://abr2435assign1.blob.core.windows.net/quiz1container/demoTXTFILE.txt', 'r') as file:
-    # story = urllib.request.urlopen('https://abr2435assign1.blob.core.windows.net/quiz1container/demoTXTFILE.txt')
-    story = ""
-    response = requests.get('https://abr2435assign1.blob.core.windows.net/quiz1container/demoTXTFILE.txt')
-
-    if response.status_code == 200:
-        content = response.text
-        # Process the file content here
-        story = content
-        print(content)
-    for line in story:
-        # for line in file:
+    # with open('demoDoc.txt', 'r') as file:
+    # story = ""
+    # response = requests.get('https://abr2435assign1.blob.core.windows.net/quiz1container/demoTXTFILE.txt')
+    # print("=========================>", response.text)
+    # if response.status_code == 200:
+    #     content = response.text
+    #     # Process the file content here
+    #     story = content
+    #     print(content)
+    print("Story =======> ", story)
+    story1 = story.splitlines()
+    for line in story1:
+        print("line ======> ", line)
         if word in line:
+            print("inside success")
             lines.append(line.rstrip())
             if len(lines) == N:
                 break
+    print("final lines =====================> ", lines)
     return lines
+
+# def get_lines_with_word(story, N, word):
+#     lines = []
+#     # with open('https://abr2435assign1.blob.core.windows.net/quiz1container/demoTXTFILE.txt', 'r') as file:
+#     # story = urllib.request.urlopen('https://abr2435assign1.blob.core.windows.net/quiz1container/demoTXTFILE.txt')
+#     story = ""
+#     response = requests.get('https://abr2435assign1.blob.core.windows.net/quiz1container/demoTXTFILE.txt')
+#     print("=========================>",response.text)
+#     if response.status_code == 200:
+#         content = response.text
+#         # Process the file content here
+#         story = content
+#         print(content)
+#     for line in story:
+#         # for line in file:
+#         if word in line:
+#             lines.append(line.rstrip())
+#             if len(lines) == N:
+#                 break
+#     return lines
 
 @app.route("/search", methods=['GET', 'POST'])
 def searchRow():
