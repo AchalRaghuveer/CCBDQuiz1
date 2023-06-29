@@ -59,6 +59,10 @@ stop_words = set([
 ])
 
 
+l1=0
+l2=0
+iv=[]
+
 # @app.route("/")
 # def index():
 #     with open("demoDoc.txt", 'r', encoding="utf-8") as file:
@@ -243,55 +247,55 @@ stop_words = set([
 # =========================================================================================================================
 @app.route("/", methods=['GET', 'POST'])
 def index():
-    if request.method == 'POST':
-        N = 3
-        word = "muÃŸte"
-
-        # Read the story from the file
-        # with open('https://abr2435assign1.blob.core.windows.net/quiz1container/demoTXTFILE.txt', 'r', encoding="utf-8") as file:
-        #     story = file.read()
-        story = ""
-        response = requests.get('https://abr2435assign1.blob.core.windows.net/quiz1container/demoTXTFILE.txt')
-        if response.status_code == 200:
-            content = response.text
-            # Process the file content here
-            story = content
-            print(content)
-
-        # Convert to lowercase
-        lower_text = story.lower()
-
-        # Remove punctuations
-        translator = str.maketrans('', '', string.punctuation)
-        text_without_punctuation = lower_text.translate(translator)
-
-        # Remove stop words
-        stop_words = set(stopwords.words('german'))
-        words = text_without_punctuation.split()
-        filtered_words = [word for word in words if word.lower() not in stop_words]
-        filtered_text = ' '.join(filtered_words)
-
-        # Stem words
-        stemmer = PorterStemmer()
-        tokens = word_tokenize(filtered_text)
-        stemmed_tokens = [stemmer.stem(word) for word in tokens]
-        stemmed_text = ' '.join(stemmed_tokens)
-
-        # Find top N nouns
-        top_nouns = find_top_n_nouns(stemmed_text, N)
-
-        # Character occurrences
-        char_stats = character_occurrences(story)
-
-        # Character replacement
-        modified_document, lines_with_word = character_replace(story, 'ä', 'ss')
-
-        # Get lines with word
-        lines_containing_word = get_lines_with_word(story, N, "aie")
-
-        return render_template('index.html', top_nouns=top_nouns, char_stats=char_stats,
-                               modified_document=modified_document, lines_with_word=lines_with_word,
-                               lines_containing_word=lines_containing_word, N=N, word=word)
+    # if request.method == 'POST':
+    #     N = 3
+    #     word = "muÃŸte"
+    #
+    #     # Read the story from the file
+    #     # with open('https://abr2435assign1.blob.core.windows.net/quiz1container/demoTXTFILE.txt', 'r', encoding="utf-8") as file:
+    #     #     story = file.read()
+    #     story = ""
+    #     response = requests.get('https://abr2435assign1.blob.core.windows.net/quiz1container/demoTXTFILE.txt')
+    #     if response.status_code == 200:
+    #         content = response.text
+    #         # Process the file content here
+    #         story = content
+    #         print(content)
+    #
+    #     # Convert to lowercase
+    #     lower_text = story.lower()
+    #
+    #     # Remove punctuations
+    #     translator = str.maketrans('', '', string.punctuation)
+    #     text_without_punctuation = lower_text.translate(translator)
+    #
+    #     # Remove stop words
+    #     stop_words = set(stopwords.words('german'))
+    #     words = text_without_punctuation.split()
+    #     filtered_words = [word for word in words if word.lower() not in stop_words]
+    #     filtered_text = ' '.join(filtered_words)
+    #
+    #     # Stem words
+    #     stemmer = PorterStemmer()
+    #     tokens = word_tokenize(filtered_text)
+    #     stemmed_tokens = [stemmer.stem(word) for word in tokens]
+    #     stemmed_text = ' '.join(stemmed_tokens)
+    #
+    #     # Find top N nouns
+    #     top_nouns = find_top_n_nouns(stemmed_text, N)
+    #
+    #     # Character occurrences
+    #     char_stats = character_occurrences(story)
+    #
+    #     # Character replacement
+    #     modified_document, lines_with_word = character_replace(story, 'ä', 'ss')
+    #
+    #     # Get lines with word
+    #     lines_containing_word = get_lines_with_word(story, N, "aie")
+    #
+    #     return render_template('index.html', top_nouns=top_nouns, char_stats=char_stats,
+    #                            modified_document=modified_document, lines_with_word=lines_with_word,
+    #                            lines_containing_word=lines_containing_word, N=N, word=word)
 
     return render_template('index.html')
 
@@ -413,6 +417,76 @@ def searchN():
         val = ValuesOBJ(dataNear[i][0], dataNear[i][1], dataNear[i][2], dataNear[i][3], dataNear[i][4])
         tableVals2.append(val)
     return render_template('index.html', tableVals2=tableVals2)
+
+# *******************************************************************************************************************
+@app.route("/saveValues", methods=['GET', 'POST'])
+def saveVals():
+
+    return render_template('index.html')
+
+
+@app.route("/passCheck", methods=['GET', 'POST'])
+def checkPass():
+    # isPassGood = True
+    l1 = int(request.form.get('l1'))
+    l2 = int(request.form.get('l2'))
+    ivVal = request.form.get('iv')
+    iv = ivVal.split(",")
+    passVal = request.form.get('pass')
+    print("values", l1, l2, iv)
+    isPassGood = validate_password(passVal,l1,l2,iv)
+    # if re.match(r"^(?=.*[0-9])(?=.*[A-Z]{2})(?=.*[#@+%!$%^&*])$", passVal):
+    #     isPassGood = True
+    #     print("if re matched",isPassGood)
+    # else:
+    #     isPassGood = False
+    #     print("if re did not match matched", isPassGood)
+    # if len(passVal) < l1 or len(passVal) > l2:
+    #     isPassGood = False
+    #     print("if len did not match matched", isPassGood)
+    # for i in iv:
+    #     if i in passVal:
+    #         isPassGood = False
+    #         print("if had special character matched", isPassGood)
+
+    return render_template('index.html', isPassGood=isPassGood, checkDone=True)
+
+# import re
+
+# def validate_password(password):
+#     pattern = r"^(?=.*[0-9])(?=.*[A-Z]{2})(?=.*[@#%+-])(?!.*[!@$*]).{8,}$"
+#     return bool(re.match(pattern, password))
+#
+# import re
+
+def validate_password(password, l1, l2, iv):
+    # At least one number
+    if not re.search(r"\d", password):
+        return False
+
+    # Two uppercase letters
+    if not re.search(r"[A-Z].*[A-Z]", password):
+        return False
+
+    # At least one character from: {#@+-%}
+    if not re.search(r"[!@#$%^&*+-]", password):
+        return False
+
+    # Not contain from variable array iv
+    # iv = ["abc", "def"]
+    for i in iv:
+        if i in password:
+            return False
+
+    # Length is l1 and l2
+    # l1 = 6
+    # l2 = 20
+    if len(password) < l1 or len(password) > l2:
+        return False
+
+    return True
+
+
 
 @app.route("/incrange", methods=['GET', 'POST'])
 def incrange():

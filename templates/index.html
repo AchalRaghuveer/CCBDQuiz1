@@ -375,51 +375,102 @@
 {#    </div>#}
 {#<h1>---------------------------------------------------------------------------------------------------------------</h1>#}
 
-<h1>Text Analysis</h1>
-    <form method="POST" action="/">
-      <input type="submit" value="Search">
-    </form>
+{#<h1>Text Analysis</h1>#}
+{#    <form method="POST" action="/">#}
+{#      <input type="submit" value="Search">#}
+{#    </form>#}
+{##}
+{#    {% if top_nouns %}#}
+{#    <h2>Top N Nouns</h2>#}
+{#    <ul>#}
+{#      {% for noun, count in top_nouns %}#}
+{#      <li>{{ noun }} (Count: {{ count }})</li>#}
+{#      {% endfor %}#}
+{#    </ul>#}
+{#    {% endif %}#}
+{##}
+{#    {% if char_stats %}#}
+{#    <h2>Character Occurrences</h2>#}
+{#    <ul>#}
+{#      {% for stat in char_stats %}#}
+{#      <li>Character: {{ stat.char }}, Count: {{ stat.count }}, Percentage: {{ stat.percentage }}%</li>#}
+{#      {% endfor %}#}
+{#    </ul>#}
+{#    {% endif %}#}
+{##}
+{#    {% if modified_document %}#}
+{#    <h2>Modified Document</h2>#}
+{#    <pre>{{ modified_document }}</pre>#}
+{#    {% endif %}#}
+{##}
+{#    {% if lines_with_word %}#}
+{#    <h2>Lines Containing the Word "{{ word }}"</h2>#}
+{#    <ul>#}
+{#      {% for line in lines_with_word %}#}
+{#      <li>{{ line }}</li>#}
+{#      {% endfor %}#}
+{#    </ul>#}
+{#    {% endif %}#}
+{##}
+{#    {% if lines_containing_word %}#}
+{#    <h2>Lines Containing the Word "{{ word }}" (First {{ N }} lines)</h2>#}
+{#    <ul>#}
+{#      {% for line in lines_containing_word %}#}
+{#      <li>{{ line }}</li>#}
+{#      {% endfor %}#}
+{#    </ul>#}
+{#    {% endif %}#}
+{#    <form action="/saveValues" , method=post>#}
+{##}
+{##}
+{#                                                <button class="btn btn-outline-success my-2 my-sm-0"#}
+{#                                                    type="submit">Search</button>#}
+{#                                            </form>#}
 
-    {% if top_nouns %}
-    <h2>Top N Nouns</h2>
-    <ul>
-      {% for noun, count in top_nouns %}
-      <li>{{ noun }} (Count: {{ count }})</li>
-      {% endfor %}
-    </ul>
+    <h1>=======================================================================</h1>
+    <h1>Password check</h1>
+    <form action="/passCheck" , method=post>
+                                                L1:<input class="form-control mr-sm-2"  id="l1"
+                                                    name="l1" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"
+                                                    aria-label="inputText">
+                                                L2:<input class="form-control mr-sm-2"  id="l2"
+                                                    name="l2" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"
+                                                    aria-label="inputText">
+                                                IV:<input class="form-control mr-sm-2"  id="IV"
+                                                    name="iv" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"
+                                                    aria-label="inputText">
+                                                Password:<input class="form-control mr-sm-2"  id="l1"
+                                                    name="pass" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"
+                                                    aria-label="inputText">
+
+                                                <button class="btn btn-outline-success my-2 my-sm-0"
+                                                    type="submit">Search</button>
+                                            </form>
+{% if checkDone %}
+    <h2>The Password Result is </h2>
+    {% if isPassGood %}
+        <h1>Correct !!!!</h1>
+    {% else %}
+        <h1>Not Correct</h1>
     {% endif %}
-
-    {% if char_stats %}
-    <h2>Character Occurrences</h2>
-    <ul>
-      {% for stat in char_stats %}
-      <li>Character: {{ stat.char }}, Count: {{ stat.count }}, Percentage: {{ stat.percentage }}%</li>
-      {% endfor %}
-    </ul>
     {% endif %}
-
-    {% if modified_document %}
-    <h2>Modified Document</h2>
-    <pre>{{ modified_document }}</pre>
-    {% endif %}
-
-    {% if lines_with_word %}
-    <h2>Lines Containing the Word "{{ word }}"</h2>
-    <ul>
-      {% for line in lines_with_word %}
-      <li>{{ line }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-
-    {% if lines_containing_word %}
-    <h2>Lines Containing the Word "{{ word }}" (First {{ N }} lines)</h2>
-    <ul>
-      {% for line in lines_containing_word %}
-      <li>{{ line }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-
-
+    <h1>========================================================================================================</h1>
+{#    <h1>Enter the html tag in the text area</h1>#}
+{#    <form action="/passCheck" , method=post>#}
+{#                                                L1:<input class="form-control mr-sm-2"  id="l1"#}
+{#                                                    name="l1" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"#}
+{#                                                    aria-label="inputText">#}
+{#                                                L2:<input class="form-control mr-sm-2"  id="l2"#}
+{#                                                    name="l2" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"#}
+{#                                                    aria-label="inputText">#}
+{#                                                IV:<input class="form-control mr-sm-2"  id="IV"#}
+{#                                                    name="iv" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"#}
+{#                                                    aria-label="inputText">#}
+{#                                                Password:<input class="form-control mr-sm-2"  id="l1"#}
+{#                                                    name="pass" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"#}
+{#                                                    aria-label="inputText">#}
+{##}
+{#                                                <button class="btn btn-outline-success my-2 my-sm-0"#}
+{#                                                    type="submit">Search</button>#}
+{#                                            </form>#}
 {%endblock%}
