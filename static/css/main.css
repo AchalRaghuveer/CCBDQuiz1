@@ -13,3 +13,8 @@ input[type=text] {
     margin-right: 16px;
     font-size: 17px;
   }
+
+.textboxclass {
+height: 100px;
+width: 800px;
+}

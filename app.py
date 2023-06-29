@@ -434,7 +434,7 @@ def checkPass():
     iv = ivVal.split(",")
     passVal = request.form.get('pass')
     print("values", l1, l2, iv)
-    isPassGood = validate_password(passVal,l1,l2,iv)
+    msg = validate_password(passVal,l1,l2,iv)
     # if re.match(r"^(?=.*[0-9])(?=.*[A-Z]{2})(?=.*[#@+%!$%^&*])$", passVal):
     #     isPassGood = True
     #     print("if re matched",isPassGood)
@@ -449,7 +449,7 @@ def checkPass():
     #         isPassGood = False
     #         print("if had special character matched", isPassGood)
 
-    return render_template('index.html', isPassGood=isPassGood, checkDone=True)
+    return render_template('index.html', isPassGood=False, checkDone=True, msg=msg)
 
 # import re
 
@@ -462,30 +462,62 @@ def checkPass():
 def validate_password(password, l1, l2, iv):
     # At least one number
     if not re.search(r"\d", password):
-        return False
+
+        return "no number"
 
     # Two uppercase letters
     if not re.search(r"[A-Z].*[A-Z]", password):
-        return False
+        return "no 2 Uppercase letters"
 
     # At least one character from: {#@+-%}
     if not re.search(r"[!@#$%^&*+-]", password):
-        return False
+        return "no special characters"
 
     # Not contain from variable array iv
     # iv = ["abc", "def"]
     for i in iv:
         if i in password:
-            return False
+            return "values for iv exist"
 
     # Length is l1 and l2
     # l1 = 6
     # l2 = 20
     if len(password) < l1 or len(password) > l2:
-        return False
+        return "length mismatch"
 
-    return True
+    return "Correct"
 
+
+@app.route('/htag', methods=['GET', 'POST'])
+def htmlTag():
+    if request.method == 'POST':
+        html = request.form['bigText']
+        b_tags = []
+        i_tags = []
+        p_tags = []
+        h1_tags = []
+        if '<b>' in html:
+            bindex = html.index('<b>')
+            bendindex = html.index('</b>')
+            b_tags.append(html[bindex:bendindex])
+        if '<i>' in html:
+            iindex = html.index('<i>')
+            iendindex = html.index('</i>')
+            i_tags.append(html[iindex:iendindex])
+        if '<p>' in html:
+            pindex = html.index('<p>')
+            pendindex = html.index('</p>')
+            p_tags.append(html[pindex:pendindex])
+        if '<b>' in html:
+            h1index = html.index('<h1>')
+            h1endindex = html.index('</h1>')
+
+            h1_tags.append(html[h1index:h1endindex])
+
+        replaced_html=html.replace("<i>", "").replace("</i>","").replace("<b>", "").replace("</b>","").replace("<n>", "").replace("</n>","").replace("<p>", "").replace("</p>","")
+
+
+    return render_template('tagop.html', b_tags=b_tags, i_tags=i_tags, p_tags=p_tags, h1_tags=h1_tags, txt=replaced_html)
 
 
 @app.route("/incrange", methods=['GET', 'POST'])

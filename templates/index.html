@@ -451,26 +451,20 @@
     {% if isPassGood %}
         <h1>Correct !!!!</h1>
     {% else %}
-        <h1>Not Correct</h1>
+        <h1>{{ msg }}</h1>
     {% endif %}
     {% endif %}
     <h1>========================================================================================================</h1>
-{#    <h1>Enter the html tag in the text area</h1>#}
-{#    <form action="/passCheck" , method=post>#}
-{#                                                L1:<input class="form-control mr-sm-2"  id="l1"#}
-{#                                                    name="l1" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"#}
-{#                                                    aria-label="inputText">#}
-{#                                                L2:<input class="form-control mr-sm-2"  id="l2"#}
-{#                                                    name="l2" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"#}
-{#                                                    aria-label="inputText">#}
-{#                                                IV:<input class="form-control mr-sm-2"  id="IV"#}
-{#                                                    name="iv" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"#}
-{#                                                    aria-label="inputText">#}
-{#                                                Password:<input class="form-control mr-sm-2"  id="l1"#}
-{#                                                    name="pass" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"#}
-{#                                                    aria-label="inputText">#}
-{##}
-{#                                                <button class="btn btn-outline-success my-2 my-sm-0"#}
-{#                                                    type="submit">Search</button>#}
-{#                                            </form>#}
+    <h1>Enter the html tag in the text area</h1>
+    <form action="/htag" , method=post>
+
+                                                HTML content:<input class="form-control mr-sm-2 textboxclass"  id="l1"
+                                                    name="bigText" type="text" size="100" width="400px" height="200px" placeholder="Html content"
+                                                    aria-label="inputText">
+
+                                                <button class="btn btn-outline-success my-2 my-sm-0"
+                                                    type="submit">Search</button>
+                                            </form>
+    <h1>=====================================================================================================</h1>
+
 {%endblock%}
