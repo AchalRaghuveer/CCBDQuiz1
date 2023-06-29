@@ -58,6 +58,7 @@ stop_words = set([
     'this', 'it', 'for', 'with', 'as', 'be', 'can', 'if', 'but', 'not'
 ])
 
+
 # @app.route("/")
 # def index():
 #     with open("demoDoc.txt", 'r', encoding="utf-8") as file:
