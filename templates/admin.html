@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Start a New Game:</h2>
+        <form method="POST" action="/admin">
+            <label for="player1">Player 1:</label>
+            <input type="text" id="player1" name="player1" required><br><br>
+            <label for="player2">Player 2:</label>
+            <input type="text" id="player2" name="player2" required><br><br>
+            <label for="pile1">Pile 1:</label>
+            <input type="number" id="pile1" name="pile1" required><br><br>
+            <label for="pile2">Pile 2:</label>
+            <input type="number" id="pile2" name="pile2" required><br><br>
+            <label for="pile3">Pile 3:</label>
+            <input type="number" id="pile3" name="pile3" required><br><br>
+            <label for="min_pick">Minimum Stones to Pick:</label>
+            <input type="number" id="min_pick" name="min_pick" required><br><br>
+            <label for="max_pick">Maximum Stones to Pick:</label>
+            <input type="number" id="max_pick" name="max_pick" required><br><br>
+            <input type="submit" name="start_game" value="Start Game">
+        </form>
+</body>
+</html>
