@@ -4,7 +4,7 @@ import string
 import urllib
 import urllib.request
 import requests
-
+from datetime import datetime
 from flask import Flask, render_template, request, jsonify
 import pyodbc
 from azure.storage.blob import BlobServiceClient
@@ -947,40 +947,41 @@ def upload(file):
 
 # Shared data
 game_data = {
-    'pile1': 0,
-    'pile2': 0,
-    'pile3': 0,
     'player1': '',
     'player2': '',
-    'turn': '',
-    'min_pick': 1,
-    'max_pick': 1,
     'score1': 0,
     'score2': 0,
+    'question': '',
+    'answer': '',
+    'answerp1':'',
+    'time1': '',
+    'answerp2':'',
+    'time2': '',
+    'resp1': '',
+    'winner': '',
+    'resp2': '',
     'show': False
 }
 
 
 def reset_game():
     # Reset game data to initial values
-    game_data['pile1'] = 0
-    game_data['pile2'] = 0
-    game_data['pile3'] = 0
+    game_data['answerp1']= ''
+    game_data['answerp2']= ''
+    game_data['resp1']= ''
+    game_data['winner']= ''
+    game_data['resp2'] =''
+    game_data['question'] = ''
+    game_data['answer'] = ''
     game_data['score1'] = 0
     game_data['score2'] = 0
 
 
-def start_game(pile1, pile2, pile3, min_pick, max_pick, player1, player2):
+def start_game(player1, player2):
     # Start a new game with provided settings
     reset_game()
-    game_data['pile1'] = int(pile1)
-    game_data['pile2'] = int(pile2)
-    game_data['pile3'] = int(pile3)
-    game_data['min_pick'] = int(min_pick)
-    game_data['max_pick'] = int(max_pick)
     game_data['player1'] = player1
     game_data['player2'] = player2
-    game_data['turn'] = player1
     game_data['show'] = True
 
 @app.route('/get_game_data')
@@ -991,6 +992,14 @@ def get_game_data():
 def index():
     reset_game()
     return render_template('index.html', game_data=game_data)
+
+@app.route('/name', methods=['GET', 'POST'])
+def name():
+    name1 = request.form.get('p1Name')
+    name2 = request.form.get('p2Name')
+    start_game(name1, name2)
+    return render_template('game.html', game_data=game_data)
+
 
 @app.route('/admin1', methods=['GET', 'POST'])
 def admin1():
@@ -1003,53 +1012,69 @@ def gameRed():
     return render_template('game.html', game_data=game_data)
 
 
-@app.route('/game1', methods=['GET', 'POST'])
-def gameVal():
-    pile = request.form.get('pile')
-    if game_data[pile] < 5:
-        stones = random.randint(1, game_data[pile])
+@app.route('/respondTop1', methods=['GET', 'POST'])
+def resp1():
+    game_data['resp1'] = request.form.get('responseToP1')
+
+    return render_template('admin.html', game_data=game_data)
+
+
+@app.route('/appendScore', methods=['GET', 'POST'])
+def resp2():
+    value = int(request.form.get('append'))
+    if value == 0:
+        game_data['score1'] = game_data['score1'] + 1
+    elif value == 1:
+        game_data['score2'] = game_data['score2'] + 1
+    game_data['question'] = 'Wait for the next question ===========> '
+    return render_template('admin.html', game_data=game_data)
+
+@app.route('/declare', methods=['GET', 'POST'])
+def declare():
+    value = int(request.form.get('dec'))
+    if value == 0:
+        game_data['winner'] = 'P1'
     else:
-        stones = random.randint(1, 5)
-    if game_data['turn'] == game_data['player1']:
-        game_data[pile] -= stones
-        game_data['score1'] += stones
-    elif game_data['turn'] == game_data['player2']:
-        game_data[pile] -= stones
-        game_data['score2'] += stones
-    if game_data['score1'] >= 10:
-        # Game round completed, determine the winner
-        # if game_data['turn'] == game_data['player1']:
-        # game_data['score1'] += 1
-        winner = game_data['player1']
-        game_data['show'] = False
-        return render_template('result.html', winner=winner, game_data=game_data)
-        # reset_game()
-    if game_data['score2'] >= 10:
-        # game_data['score2'] += 1
-        winner = game_data['player2']
-        game_data['show'] = False
-        return render_template('result.html', winner=winner, game_data=game_data)
-        # reset_game()
-    # Switch turns
-    game_data['turn'] = game_data['player2'] if game_data['turn'] == game_data['player1'] else game_data[
-        'player1']
+        game_data['winner'] = 'P2'
+    game_data['question'] = 'Wait for the next question ===========> '
+    return render_template('admin.html', game_data=game_data)
+
+@app.route('/respondTop2', methods=['GET', 'POST'])
+def appendScore():
+    game_data['resp2'] = request.form.get('responseToP2')
+    return render_template('admin.html', game_data=game_data)
+
+
+@app.route('/p1Answer', methods=['GET', 'POST'])
+def gameVal():
+    game_data['answerp1'] = request.form.get('p1Answer')
+    game_data['time1'] = datetime.now()
     return render_template('game.html', game_data=game_data)
+
+
+@app.route('/p2Answer', methods=['GET', 'POST'])
+def gameVal2():
+    game_data['answerp2'] = request.form.get('p2Answer')
+    game_data['time2'] = datetime.now()
+    return render_template('game.html', game_data=game_data)
+
+
+
+@app.route('/question', methods=['GET', 'POST'])
+def quest():
+    game_data['question'] = request.form.get('question')
+    game_data['answer'] = request.form.get('answer')
+    print("game data after question =========> ", game_data)
+    return render_template('admin.html', game_data=game_data)
+
 
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-
     reset_game()
-    pile1 = request.form.get('pile1')
-    pile2 = request.form.get('pile2')
-    pile3 = request.form.get('pile3')
-    min_pick = request.form.get('min_pick')
-    max_pick = request.form.get('max_pick')
-    player1 = request.form.get('player1')
-    player2 = request.form.get('player2')
-    start_game(pile1, pile2, pile3, min_pick, max_pick, player1, player2)
-    print("game data in admin =========> ", game_data)
-    return render_template('index.html', game_data=game_data)
+    game_data['question'] = request.form.get('question')
+    game_data['answer'] = request.form.get('answer')
+    return render_template('admin.html', game_data=game_data)
 
 
 class ValuesOBJ:

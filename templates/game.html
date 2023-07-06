@@ -13,9 +13,7 @@
       if (xhr.status === 200) {
         var gameData = JSON.parse(xhr.responseText);
         console.log("game_data", gameData);
-        if (gameData.show) {
           location.reload();
-        }
       }
     }
   };
@@ -25,35 +23,55 @@
     </script>
 </head>
 <body>
-<h2>Current Game:</h2>
-        <p>Player 1: {{ game_data.player1 }}</p>
-        <p>Player 2: {{ game_data.player2 }}</p>
-        <p>Turn: {{ game_data.turn }}</p>
-        <p>Score:</p>
-        <p>{{ game_data.player1 }}: {{ game_data.score1 }}</p>
-        <p>{{ game_data.player2 }}: {{ game_data.score2 }}</p>
-        <h3>Stone Piles:</h3>
-        <form method="POST" action="/game1">
-            <label for="pile1">Pile 1:</label>
-            <input type="number" id="pile1" name="pile1" value="{{ game_data.pile1 }}" readonly><br><br>
-            <label for="pile2">Pile 2:</label>
-            <input type="number" id="pile2" name="pile2" value="{{ game_data.pile2 }}" readonly><br><br>
-            <label for="pile3">Pile 3:</label>
-            <input type="number" id="pile3" name="pile3" value="{{ game_data.pile3 }}" readonly><br><br>
-            {% if game_data.turn == game_data.player1 %}
-                <p><strong>{{ game_data.player1 }}, it's your turn!</strong></p>
-            {% else %}
-                <p><strong>{{ game_data.player2 }}, it's your turn!</strong></p>
-            {% endif %}
-            <label for="stones">Pick Stones:</label>
-            <input type="number" id="stones" name="stones" min="{{ game_data.min_pick }}" max="{{ game_data.max_pick }}" required><br><br>
-            <label for="pile">From Pile:</label>
-            <select id="pile" name="pile" required>
-                <option value="pile1">Pile 1</option>
-                <option value="pile2">Pile 2</option>
-                <option value="pile3">Pile 3</option>
-            </select><br><br>
-            <input type="submit" name="pick_stones" value="Pick Stones">
+<form method="POST" action="/name">
+            <label for="pile1">P1 Name:</label>
+            <input class="form-control mr-sm-2" style="width: 50%;" id="inputText"
+                                                    name="p1Name" type="text" placeholder="Type text here"
+                                                    aria-label="inputText">
+            <label for="pile1">P2 Name:</label>
+            <input class="form-control mr-sm-2" style="width: 50%;" id="inputText"
+                                                    name="p2Name" type="text" placeholder="Type text here"
+                                                    aria-label="inputText">
+            <input type="submit" name="pick_stones" value="Submit">
         </form>
+{% if game_data.winner != '' %}
+            <h1>Game Result</h1>
+    <p><strong>Winner:</strong> {{ game_data.winner }}</p>
+    <a href="/">Start a New Game</a>
+        {% endif %}
+{#{% if game_data.show %}#}
+    <p>Score:</p>
+    <p>{{ game_data.player1 }}: {{ game_data.score1 }}</p>
+    <p>{{ game_data.player2 }}: {{ game_data.score2 }}</p>
+<h2>Current Game:</h2>
+{#        {% if game_data.question != '' %}#}
+            <p>Question: {{ game_data.question }}</p>
+{#        {% endif %}#}
+        <div>
+            <form method="POST" action="/p1Answer">
+            <label for="pile1">P1 Answer:</label>
+            <input class="form-control mr-sm-2" style="width: 50%;" id="inputText"
+                                                    name="p1Answer" type="text" placeholder="Type text here"
+                                                    aria-label="inputText">
+            <input type="submit" name="pick_stones" value="Submit">
+        </form>
+            {% if game_data.resp1 != '' %}
+            <p>Response: {{ game_data.resp1 }}</p>
+        {% endif %}
+
+            <h1>=====================================================================================================</h1>
+        <form method="POST" action="/p2Answer">
+            <label for="pile1">P2 Answer:</label>
+            <input class="form-control mr-sm-2" style="width: 50%;" id="inputText"
+                                                    name="p2Answer" type="text" placeholder="Type text here"
+                                                    aria-label="inputText">
+            <input type="submit" name="pick_stones" value="Submit">
+        </form>
+        {% if game_data.resp2 != '' %}
+            <p>Response: {{ game_data.resp2 }}</p>
+        {% endif %}
+        </div>
+{#{% endif %}#}
+
 </body>
 </html>

@@ -3,25 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script>
+      // Reload the page after 5 seconds (5000 milliseconds)
+      setTimeout(function() {
+  // Make an AJAX request to the server to fetch the game_data
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        var gameData = JSON.parse(xhr.responseText);
+        console.log("game_data", gameData);
+          location.reload();
+      }
+    }
+  };
+  xhr.open('GET', '/get_game_data'); // Replace '/get_game_data' with your server endpoint
+  xhr.send();
+}, 10000);
+    </script>
 </head>
 <body>
 <h2>Start a New Game:</h2>
-        <form method="POST" action="/admin">
-            <label for="player1">Player 1:</label>
-            <input type="text" id="player1" name="player1" required><br><br>
-            <label for="player2">Player 2:</label>
-            <input type="text" id="player2" name="player2" required><br><br>
-            <label for="pile1">Pile 1:</label>
-            <input type="number" id="pile1" name="pile1" required><br><br>
-            <label for="pile2">Pile 2:</label>
-            <input type="number" id="pile2" name="pile2" required><br><br>
-            <label for="pile3">Pile 3:</label>
-            <input type="number" id="pile3" name="pile3" required><br><br>
-            <label for="min_pick">Minimum Stones to Pick:</label>
-            <input type="number" id="min_pick" name="min_pick" required><br><br>
-            <label for="max_pick">Maximum Stones to Pick:</label>
-            <input type="number" id="max_pick" name="max_pick" required><br><br>
-            <input type="submit" name="start_game" value="Start Game">
+            <p>P1 Score: {{ game_data.score1 }}</p>
+            <p>P2 Score: {{ game_data.score2 }}</p>
+    {% if game_data.winner != '' %}
+            <h1>Game Result</h1>
+    <p><strong>Winner:</strong> {{ game_data.winner }}</p>
+    <p>Score:</p>
+    <p>P1: {{ game_data.score1 }}</p>
+    <p>P2: {{ game_data.score2 }}</p>
+    <a href="/">Start a New Game</a>
+        {% endif %}
+        <form method="POST" action="/question">
+            <label for="player1">Question:</label>
+            <input type="text" id="player1" name="question" required><br><br>
+            <label for="player2">Answer:</label>
+            <input type="text" id="player2" name="answer" required><br><br>
+                        <input type="submit" name="pick_stones" value="Post Question">
+
         </form>
+        <h1>P1 Response ===========> </h1>{% if game_data.answerp1 != '' %}
+            <p>Answer: {{ game_data.answerp1 }}</p>
+            <p>Time: {{ game_data.time1 }}</p>
+        {% endif %}
+        <form method="POST" action="/respondTop1">
+            <label for="player1">Response :</label>
+            <input type="text" id="player1" name="responseToP1" required><br><br>
+                        <input type="submit" name="pick_stones" value="Post Response">
+
+        </form>
+        <h1>==============================================================================================================</h1>
+        <h1>P2 Response ===========> </h1>{% if game_data.answerp2 != '' %}
+            <p>Answer: {{ game_data.answerp2 }}</p>
+            <p>Time: {{ game_data.time2 }}</p>
+        {% endif %}
+
+        <form method="POST" action="/respondTop2">
+            <label for="player1">Response :</label>
+            <input type="text" id="player1" name="responseToP2" required><br><br>
+                        <input type="submit" name="pick_stones" value="Post Response">
+
+        </form>
+<h1>==========================================================================================================</h1>
+        <form method="POST" action="/appendScore">
+            <label for="pile">Select Pile:</label>
+        <select name="append" required>
+            <option value="0">P1</option>
+            <option value="1">P2</option>
+        </select>
+            <input type="submit" name="pick_stones" value="Increase score">
+
+        </form>
+<h1>==========================================================================================================</h1>
+<form method="POST" action="/declare">
+            <label for="pile">Select Pile:</label>
+        <select name="dec" required>
+            <option value="0">P1</option>
+            <option value="1">P2</option>
+        </select>
+            <input type="submit" name="pick_stones" value="Increase score">
+
+        </form>
+
 </body>
 </html>
