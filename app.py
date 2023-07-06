@@ -985,19 +985,11 @@ def start_game(pile1, pile2, pile3, min_pick, max_pick, player1, player2):
 
 @app.route('/get_game_data')
 def get_game_data():
-    # Retrieve the game_data from your application logic
-    # game_data = game_data  # Replace this with your actual logic to get the game_data
+
     return jsonify(game_data)
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    # if request.method == 'POST':
-    #     if 'start_game' in request.form:
-    #         # Start a new game
-    #
-    #     elif 'pick_stones' in request.form:
-    #         # Process player's stone pick
-    #
-    # print("Game data =====> ", game_data)
+    reset_game()
     return render_template('index.html', game_data=game_data)
 
 @app.route('/admin1', methods=['GET', 'POST'])

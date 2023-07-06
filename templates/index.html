@@ -1,11 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Piles of Stones Game</title>
+{%extends 'base.html'%}
 
-</head>
-<body>
-    <h1>Piles of Stones Game</h1>
+{%block head%}
+<div class="heading" style="text-align: center;align-content: center;">
+    <div class="card"
+        style="text-align: center">
+    <div class="card-body" style="text-align:center;">
+        <h2 class="card-title" style="text-align:center">Quiz 6</h2>
+        <div>
+            <h2>
+{#                <img src="https://abr2435ccbd.blob.core.windows.net/abr2435container/achal.jpg" />#}
+                <p class="card-text" style="text-align:center">Name: Achal Bhujangaswami Raghuveer</p>
+                <p class="card-text" style="text-align:center">UTA ID last 4 digits : 2435</p>
+            </h2>
+        </div>
+    </div>
+</div>
+</div>
+
+{%endblock%}
+
+{%block body%}
+
+<h1>Cloud Computing Quiz 6</h1>
+    <h1>----------------------------------------------------------------------------------------------</h1>
+<h1>Piles of Stones Game</h1>
     <form method="POST" action="/admin1">
 
         <input type="submit" name="pick_stones" value="Admin Section">
@@ -14,5 +32,5 @@
 
         <input type="submit" name="start" value="Start Game">
         </form>
-</body>
-</html>
+
+{%endblock%}
