@@ -1,470 +1,81 @@
-{%extends 'base.html'%}
-
-{%block head%}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.min.js" integrity="sha512-mlz/Fs1VtBou2TrUkGzX4VoGvybkD9nkeXWJm3rle0DPHssYYx4j+8kIS15T78ttGfmOjH0lLaBXGcShaVkdkg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<div class="heading" style="text-align: center;align-content: center;">
-    <div class="card"
-        style="text-align: center">
-    <div class="card-body" style="text-align:center;">
-        <h2 class="card-title" style="text-align:center">Quiz 5</h2>
-        <div>
-            <h2>
-                <p class="card-text" style="text-align:center">Name: Achal Bhujangaswami Raghuveer</p>
-                <p class="card-text" style="text-align:center">UTA ID last 4 digits : 2435</p>
-            </h2>
-        </div>
-    </div>
-</div>
-</div>
-
-
-{%endblock%}
-
-{%block body%}
-
-{#    <h1>----------------------------------------------------------------------------------------------------------------</h1>#}
-{#<form action="/search" method="POST">#}
-{#    Enter Population Range  : <input type="text" name="name" placeholder="city name" required>#}
-{#    <button type="submit">Search</button>#}
-{#</form>#}
-{#   Final Value is ===========> {{ randomquerytimeredis }}#}
-{#    <h1>----------------------------------------------------------------------------------------------</h1>#}
-{#<form action="/searchNormal" method="POST">#}
-{#    Enter Number Of Executions : <input type="text" name="normal" placeholder="city name" required>#}
-{#    <button type="submit">Search</button>#}
-{#</form>#}
-{#   Final Value is ===========> {{ randomquerytime }}#}
-{#    {% if cityVal %}#}
-{#    <h1>City: {{ cityVal.city }}</h1>#}
-{#    <h1>State: {{ cityVal.state }}</h1>#}
-{#    <h1>Population: {{ cityVal.population }}</h1>#}
-{#    <h1>Lat: {{ cityVal.lat }}</h1>#}
-{#    <h1>Lon: {{ cityVal.long }}</h1>#}
-{#    {% endif %}#}
-{#<h3>====================================================================================================</h3>#}
-{#<h1>Cities that are less than 100KM radius</h1>#}
-{#<table>#}
-{#  <tr>#}
-{#    <th>City</th>#}
-{#    <th>State</th>#}
-{#    <th>Population</th>#}
-{#      <th>Lat</th>#}
-{#      <th>Lon</th>#}
-{#  </tr>#}
-{#        {% for tableVal in tableVals %}#}
-{#  <tr>#}
-{#    <td>{{  tableVal.city }}</td>#}
-{#      <td>{{tableVal.state}}</td>#}
-{#    <td>{{tableVal.population}}</td>#}
-{#  <td>{{tableVal.lat}}</td>#}
-{#  <td>{{tableVal.long}}</td>#}
-{#  </tr>#}
-{#    {% endfor %}#}
-{#</table>#}
-{#<h1>----------------------------------------------------------------------------------------------</h1>#}
-{#    <form action="/rangepop2" method="POST">#}
-{#        Max Lat :<input type="text" name="number1" placeholder="Search query" >#}
-{#        Min Lat :<input type="text" name="number2" placeholder="Search query" >#}
-{#        Max Lon :<input type="text" name="number3" placeholder="Search query" >#}
-{#        Min Lon :<input type="text" name="number4" placeholder="Search query" >#}
-{#        <button type="submit">Check</button>#}
-{#    </form>#}
-{##}
-{#    <h1>Cities that are in range</h1>#}
-{#<table>#}
-{#  <tr>#}
-{#    <th>City</th>#}
-{#    <th>State</th>#}
-{#    <th>Population</th>#}
-{#      <th>Lat</th>#}
-{#      <th>Lon</th>#}
-{#  </tr>#}
-{#        {% for tableVal in tableVals99 %}#}
-{#  <tr>#}
-{#    <td>{{  tableVal.city }}</td>#}
-{#      <td>{{tableVal.state}}</td>#}
-{#    <td>{{tableVal.population}}</td>#}
-{#  <td>{{tableVal.lat}}</td>#}
-{#  <td>{{tableVal.long}}</td>#}
-{#  </tr>#}
-{#    {% endfor %}#}
-{#</table>#}
-{#    <h1>Final Time to get : {{ finalTime1 }}</h1>#}
-{#        <h1>Final Tot Time to get : {{ finalTimes2 }}</h1>#}
-{#    <h1>====================================================================</h1>#}
-{#    Cache memory#}
-{#    <form action="/rangepopRedis" method="POST">#}
-{#        Max Lat :<input type="text" name="number11" placeholder="Search query" >#}
-{#        Min Lat :<input type="text" name="number22" placeholder="Search query" >#}
-{#        Max Lon :<input type="text" name="number33" placeholder="Search query" >#}
-{#        Min Lon :<input type="text" name="number44" placeholder="Search query" >#}
-{#        <button type="submit">Check</button>#}
-{#    </form>#}
-{##}
-{#    <h1>Cities that are in range</h1>#}
-{#<table>#}
-{#  <tr>#}
-{#    <th>City</th>#}
-{#    <th>State</th>#}
-{#    <th>Population</th>#}
-{#      <th>Lat</th>#}
-{#      <th>Lon</th>#}
-{#  </tr>#}
-{#        {% for tableVal in tableVals8 %}#}
-{#  <tr>#}
-{#    <td>{{  tableVal.city }}</td>#}
-{#      <td>{{tableVal.state}}</td>#}
-{#    <td>{{tableVal.population}}</td>#}
-{#  <td>{{tableVal.lat}}</td>#}
-{#  <td>{{tableVal.long}}</td>#}
-{#  </tr>#}
-{#    {% endfor %}#}
-{#</table>#}
-{#    <h1>Final Time to get : {{ finalTime3 }}</h1>#}
-{#        <h1>Final Tot Time to get : {{ finalTimet1 }}</h1>#}
-{#<h1>----------------------------------------------------------------------------------------------</h1>#}
-{#    <h1>----------------------------------------------------------------------------------------------</h1>#}
-{#    <h1>Range Values</h1>#}
-{##}
-{#    <form action="/rangepop" method="POST">#}
-{#                State : <input type="text" name="state" placeholder="Search query" >#}
-{#        Max Population : <input type="text" name="number5" placeholder="Search query" >#}
-{#        Min Population : <input type="text" name="number6" placeholder="Search query" >#}
-{#        Increment Value : <input type="text" name="inc" placeholder="Search query" >#}
-{#        <button type="submit">Check</button>#}
-{#    </form>#}
-{#    <h1> Changed Population</h1>#}
-{#        <table>#}
-{#  <tr>#}
-{#    <th>City</th>#}
-{#    <th>State</th>#}
-{#    <th>Population</th>#}
-{#      <th>Lat</th>#}
-{#      <th>Lon</th>#}
-{#  </tr>#}
-{#        {% for tableVal in tableVals2 %}#}
-{#  <tr>#}
-{#    <td>{{  tableVal.city }}</td>#}
-{#      <td>{{tableVal.state}}</td>#}
-{#    <td>{{tableVal.population}}</td>#}
-{#  <td>{{tableVal.lat}}</td>#}
-{#  <td>{{tableVal.long}}</td>#}
-{#  </tr>#}
-{#    {% endfor %}#}
-{#        <h1>Final Time to get : {{ finalTime1 }}</h1>#}
-{#        <h1>Final Tot Time to get : {{ finalTimes2 }}</h1>#}
-{#</table>#}
-{#    <h1>----------------------------------------------------------------------------------------------</h1>#}
-{#    <h1>Population range with n tuples</h1>#}
-{##}
-{#    <form action="/rangepoptup" method="POST">#}
-{#                Number of Tuples : <input type="text" name="tup" placeholder="Search query" >#}
-{#        Max Population : <input type="text" name="number7" placeholder="Search query" >#}
-{#        Min Population : <input type="text" name="number8" placeholder="Search query" >#}
-{#        Increment Value : <input type="text" name="inc" placeholder="Search query" >#}
-{#        <button type="submit">Check</button>#}
-{#    </form>#}
-{#    <h1> Changed Population</h1>#}
-{#        <table>#}
-{#  <tr>#}
-{#    <th>City</th>#}
-{#    <th>State</th>#}
-{#    <th>Population</th>#}
-{#      <th>Lat</th>#}
-{#      <th>Lon</th>#}
-{#  </tr>#}
-{#        {% for tableVal in tableVals3 %}#}
-{#  <tr>#}
-{#    <td>{{  tableVal.city }}</td>#}
-{#      <td>{{tableVal.state}}</td>#}
-{#    <td>{{tableVal.population}}</td>#}
-{#  <td>{{tableVal.lat}}</td>#}
-{#  <td>{{tableVal.long}}</td>#}
-{#  </tr>#}
-{#    {% endfor %}#}
-{#        <h1>Final Time to get : {{ finalTime2 }}</h1>#}
-{#        <h1>Final Tot Time to get : {{ finalTimes3 }}</h1>#}
-{#</table>#}
-{#    <h1>----------------------------------------------------------------------------------------------</h1>#}
-{#    <h1>Increment the population State</h1>#}
-{##}
-{#    <form action="/incrange" method="POST">#}
-{#                State : <input type="text" name="state" placeholder="Search query" >#}
-{#        Max Population : <input type="text" name="number9" placeholder="Search query" >#}
-{#        Min Population : <input type="text" name="number10" placeholder="Search query" >#}
-{#        Increment Value : <input type="text" name="inc" placeholder="Search query" >#}
-{#        <button type="submit">Check</button>#}
-{#    </form>#}
-{#        <h1> Changed Population</h1>#}
-{##}
-{#        <table>#}
-{#  <tr>#}
-{#    <th>City</th>#}
-{#    <th>State</th>#}
-{#    <th>Population</th>#}
-{#      <th>Lat</th>#}
-{#      <th>Lon</th>#}
-{#  </tr>#}
-{#        {% for tableVal in tableVals4 %}#}
-{#  <tr>#}
-{#    <td>{{  tableVal.city }}</td>#}
-{#      <td>{{tableVal.state}}</td>#}
-{#    <td>{{tableVal.population}}</td>#}
-{#  <td>{{tableVal.lat}}</td>#}
-{#  <td>{{tableVal.long}}</td>#}
-{#  </tr>#}
-{#    {% endfor %}#}
-{#        <h1>Final Time to get : {{ finalTime3 }}</h1>#}
-{##}
-{#</table>#}
-{#    <h1>----------------------------------------------------------------------------------------------</h1>#}
-{#    <h1>Population range with n tuples With Cache memory</h1>#}
-{##}
-{#    <form action="/rangepoptupRedis" method="POST">#}
-{#                Number of Tuples : <input type="text" name="tupRed" placeholder="Search query" >#}
-{#        Max Population : <input type="text" name="number11" placeholder="Search query" >#}
-{#        Min Population : <input type="text" name="number12" placeholder="Search query" >#}
-{#        Increment Value : <input type="text" name="inc" placeholder="Search query" >#}
-{#        <button type="submit">Check</button>#}
-{#    </form>#}
-{#    <h1> Population</h1>#}
-{#        <table>#}
-{#  <tr>#}
-{#    <th>City</th>#}
-{#    <th>State</th>#}
-{#    <th>Population</th>#}
-{#      <th>Lat</th>#}
-{#      <th>Lon</th>#}
-{#  </tr>#}
-{#        {% for tableVal in tableVals5 %}#}
-{#  <tr>#}
-{#    <td>{{  tableVal.city }}</td>#}
-{#      <td>{{tableVal.state}}</td>#}
-{#    <td>{{tableVal.population}}</td>#}
-{#  <td>{{tableVal.lat}}</td>#}
-{#  <td>{{tableVal.long}}</td>#}
-{#  </tr>#}
-{#    {% endfor %}#}
-{#        <h1>Final Time to get : {{ finalTime4 }}</h1>#}
-{#</table>#}
-{##}
-{#    <h1>----------------------------------------------------------------------------------------------</h1>#}
-{#    <h1>Cache Memory Range Values</h1>#}
-{##}
-{#    <form action="/rangepopRedis" method="POST">#}
-{#                State : <input type="text" name="state" placeholder="Search query" >#}
-{#        Max Population : <input type="text" name="number15" placeholder="Search query" >#}
-{#        Min Population : <input type="text" name="number16" placeholder="Search query" >#}
-{#        Increment Value : <input type="text" name="inc" placeholder="Search query" >#}
-{#        <button type="submit">Check</button>#}
-{#    </form>#}
-{#    <h1> Changed Population</h1>#}
-{#        <table>#}
-{#  <tr>#}
-{#    <th>City</th>#}
-{#    <th>State</th>#}
-{#    <th>Population</th>#}
-{#      <th>Lat</th>#}
-{#      <th>Lon</th>#}
-{#  </tr>#}
-{#        {% for tableVal in tableVals8 %}#}
-{#  <tr>#}
-{#    <td>{{  tableVal.city }}</td>#}
-{#      <td>{{tableVal.state}}</td>#}
-{#    <td>{{tableVal.population}}</td>#}
-{#  <td>{{tableVal.lat}}</td>#}
-{#  <td>{{tableVal.long}}</td>#}
-{#  </tr>#}
-{#    {% endfor %}#}
-{#        <h1>Final Time to get : {{ finalTime7 }}</h1>#}
-{#</table>#}
-{#<h1>----------------------------------------------------------------------------------------------</h1>#}
-{#    <h1>Delete City by name</h1>#}
-{#    <form action="/delete" method="POST" enctype="multipart/form-data">#}
-{##}
-{#        City Name: <input type="text" name="nameDel">#}
-{#        <input type="submit" value="Delete">#}
-{#    </form>#}
-{#    {% if msgDel %}#}
-{#    <h1>Deleted successfully!!!!</h1>#}
-{#    {% endif %}#}
-{#    <h1>----------------------------------------------------------------------------------------------</h1>#}
-{#    <h1>Delete State by name</h1>#}
-{#    <form action="/deleteS" method="POST" enctype="multipart/form-data">#}
-{##}
-{#        State Name: <input type="text" name="nameDelS">#}
-{#        <input type="submit" value="Delete">#}
-{#    </form>#}
-{#    {% if msgDelS %}#}
-{#    <h1>Deleted successfully!!!!</h1>#}
-{#    {% endif %}#}
-{#<h1>-------------------------------------------------------------------------------------------------------</h1>#}
-{#    <h1>Add Entry</h1>#}
-{#    <form action="/add" method="POST">#}
-{#                City : <input type="text" name="cityAdd" placeholder="Search query" >#}
-{#        State : <input type="text" name="stateAdd" placeholder="Search query" >#}
-{#        Population : <input type="text" name="popAdd" placeholder="Search query" >#}
-{#        Lat : <input type="text" name="latAdd" placeholder="Search query" >#}
-{#        Lon : <input type="text" name="lonAdd" placeholder="Search query" >#}
-{#        <button type="submit">Check</button>#}
-
-{#    <div>#}
-{#  <canvas id="myChart"></canvas>#}
-{#</div>#}
-{##}
-{#<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>#}
-{##}
-{#<script>#}
-{#  const ctx = document.getElementById('myChart');#}
-{##}
-{#  new Chart(ctx, {#}
-{#    type: 'bar',#}
-{#    data: {#}
-{#      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],#}
-{#      datasets: [{#}
-{#        label: '# of Votes',#}
-{#        data: [12, 19, 3, 5, 2, 3],#}
-{#        borderWidth: 1#}
-{#      }]#}
-{#    },#}
-{#    options: {#}
-{#      scales: {#}
-{#        y: {#}
-{#          beginAtZero: true#}
-{#        }#}
-{#      }#}
-{#    }#}
-{#  });#}
-{#</script>#}
-
-{#  <form action="/alphaQuant" , method=post>#}
-{#                                                <input class="form-control mr-sm-2"  id="inputText"#}
-{#                                                    name="inputVal" type="text" placeholder="Type text here"#}
-{#                                                    aria-label="inputText">#}
-{#                                                <button class="btn btn-outline-success my-2 my-sm-0"#}
-{#                                                    type="submit">Search</button>#}
-{#                                            </form>#}
-{#    <div style="text-align: center">#}
-{#        <img   style="width: 70%; height: 70%; align-items: center" src="data:image/jpeg;base64,{{ pieChart }}">#}
-{#    </div>#}
-{#<h1>================================================================================================================</h1>#}
-{#<h1>Bar Graph</h1>#}
-{#<form action="/barOP" , method=post>#}
-{#                                                <input class="form-control mr-sm-2"  id="inputText"#}
-{#                                                    name="inputValBar" type="text" placeholder="apple 4, gopi 5....."#}
-{#                                                    aria-label="inputText">#}
-{#                                                <button class="btn btn-outline-success my-2 my-sm-0"#}
-{#                                                    type="submit">Search</button>#}
-{#                                            </form>#}
-{#    <h3>Horizontal Bar Graph Of words with percentage </h3>#}
-{#    <div style="text-align: center">#}
-{#        <img style="width: 70%; height: 70%; align-items: center" src="data:image/jpeg;base64,{{ output1 }}">#}
-{#    </div>#}
-{#<h1>============================================================================================================</h1>#}
-{#<h1>Plot Scatter Chart</h1>#}
-{#    <form action="/scatterPlot" , method=post>#}
-{##}
-{#                                                <input class="form-control mr-sm-2"  id="inputText"#}
-{#                                                    name="inputValDot" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"#}
-{#                                                    aria-label="inputText">#}
-{#                                                <button class="btn btn-outline-success my-2 my-sm-0"#}
-{#                                                    type="submit">Search</button>#}
-{#                                            </form>#}
-{#    <div style="text-align: center">#}
-{#        <img src="data:image/jpeg;base64,{{ output }}">#}
-{#    </div>#}
-{#<h1>---------------------------------------------------------------------------------------------------------------</h1>#}
-
-{#<h1>Text Analysis</h1>#}
-{#    <form method="POST" action="/">#}
-{#      <input type="submit" value="Search">#}
-{#    </form>#}
-{##}
-{#    {% if top_nouns %}#}
-{#    <h2>Top N Nouns</h2>#}
-{#    <ul>#}
-{#      {% for noun, count in top_nouns %}#}
-{#      <li>{{ noun }} (Count: {{ count }})</li>#}
-{#      {% endfor %}#}
-{#    </ul>#}
-{#    {% endif %}#}
-{##}
-{#    {% if char_stats %}#}
-{#    <h2>Character Occurrences</h2>#}
-{#    <ul>#}
-{#      {% for stat in char_stats %}#}
-{#      <li>Character: {{ stat.char }}, Count: {{ stat.count }}, Percentage: {{ stat.percentage }}%</li>#}
-{#      {% endfor %}#}
-{#    </ul>#}
-{#    {% endif %}#}
-{##}
-{#    {% if modified_document %}#}
-{#    <h2>Modified Document</h2>#}
-{#    <pre>{{ modified_document }}</pre>#}
-{#    {% endif %}#}
-{##}
-{#    {% if lines_with_word %}#}
-{#    <h2>Lines Containing the Word "{{ word }}"</h2>#}
-{#    <ul>#}
-{#      {% for line in lines_with_word %}#}
-{#      <li>{{ line }}</li>#}
-{#      {% endfor %}#}
-{#    </ul>#}
-{#    {% endif %}#}
-{##}
-{#    {% if lines_containing_word %}#}
-{#    <h2>Lines Containing the Word "{{ word }}" (First {{ N }} lines)</h2>#}
-{#    <ul>#}
-{#      {% for line in lines_containing_word %}#}
-{#      <li>{{ line }}</li>#}
-{#      {% endfor %}#}
-{#    </ul>#}
-{#    {% endif %}#}
-{#    <form action="/saveValues" , method=post>#}
-{##}
-{##}
-{#                                                <button class="btn btn-outline-success my-2 my-sm-0"#}
-{#                                                    type="submit">Search</button>#}
-{#                                            </form>#}
-
-    <h1>=======================================================================</h1>
-    <h1>Password check</h1>
-    <form action="/passCheck" , method=post>
-                                                L1:<input class="form-control mr-sm-2"  id="l1"
-                                                    name="l1" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"
-                                                    aria-label="inputText">
-                                                L2:<input class="form-control mr-sm-2"  id="l2"
-                                                    name="l2" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"
-                                                    aria-label="inputText">
-                                                IV:<input class="form-control mr-sm-2"  id="IV"
-                                                    name="iv" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"
-                                                    aria-label="inputText">
-                                                Password:<input class="form-control mr-sm-2"  id="l1"
-                                                    name="pass" type="text" placeholder="2 3 1, 2 3 2 in {X,Y,C}"
-                                                    aria-label="inputText">
-
-                                                <button class="btn btn-outline-success my-2 my-sm-0"
-                                                    type="submit">Search</button>
-                                            </form>
-{% if checkDone %}
-    <h2>The Password Result is </h2>
-    {% if isPassGood %}
-        <h1>Correct !!!!</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Piles of Stones Game</title>
+    <script>
+      // Reload the page after 5 seconds (5000 milliseconds)
+      setTimeout(function() {
+  // Make an AJAX request to the server to fetch the game_data
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        var gameData = JSON.parse(xhr.responseText);
+        console.log("game_data", gameData);
+        if (gameData.show) {
+          location.reload();
+        }
+      }
+    }
+  };
+  xhr.open('GET', '/get_game_data'); // Replace '/get_game_data' with your server endpoint
+  xhr.send();
+}, 10000);
+    </script>
+</head>
+<body>
+    <h1>Piles of Stones Game</h1>
+    <h1>{{ game_data.show }}</h1>
+    {% if game_data.show %}
+        <h2>Current Game:</h2>
+        <p>Player 1: {{ game_data.player1 }}</p>
+        <p>Player 2: {{ game_data.player2 }}</p>
+        <p>Turn: {{ game_data.turn }}</p>
+        <p>Score:</p>
+        <p>{{ game_data.player1 }}: {{ game_data.score1 }}</p>
+        <p>{{ game_data.player2 }}: {{ game_data.score2 }}</p>
+        <h3>Stone Piles:</h3>
+        <form method="POST" action="/">
+            <label for="pile1">Pile 1:</label>
+            <input type="number" id="pile1" name="pile1" value="{{ game_data.pile1 }}" readonly><br><br>
+            <label for="pile2">Pile 2:</label>
+            <input type="number" id="pile2" name="pile2" value="{{ game_data.pile2 }}" readonly><br><br>
+            <label for="pile3">Pile 3:</label>
+            <input type="number" id="pile3" name="pile3" value="{{ game_data.pile3 }}" readonly><br><br>
+            {% if game_data.turn == game_data.player1 %}
+                <p><strong>{{ game_data.player1 }}, it's your turn!</strong></p>
+            {% else %}
+                <p><strong>{{ game_data.player2 }}, it's your turn!</strong></p>
+            {% endif %}
+            <label for="stones">Pick Stones:</label>
+            <input type="number" id="stones" name="stones" min="{{ game_data.min_pick }}" max="{{ game_data.max_pick }}" required><br><br>
+            <label for="pile">From Pile:</label>
+            <select id="pile" name="pile" required>
+                <option value="pile1">Pile 1</option>
+                <option value="pile2">Pile 2</option>
+                <option value="pile3">Pile 3</option>
+            </select><br><br>
+            <input type="submit" name="pick_stones" value="Pick Stones">
+        </form>
     {% else %}
-        <h1>{{ msg }}</h1>
+        <h2>Start a New Game:</h2>
+        <form method="POST" action="/">
+            <label for="player1">Player 1:</label>
+            <input type="text" id="player1" name="player1" required><br><br>
+            <label for="player2">Player 2:</label>
+            <input type="text" id="player2" name="player2" required><br><br>
+            <label for="pile1">Pile 1:</label>
+            <input type="number" id="pile1" name="pile1" required><br><br>
+            <label for="pile2">Pile 2:</label>
+            <input type="number" id="pile2" name="pile2" required><br><br>
+            <label for="pile3">Pile 3:</label>
+            <input type="number" id="pile3" name="pile3" required><br><br>
+            <label for="min_pick">Minimum Stones to Pick:</label>
+            <input type="number" id="min_pick" name="min_pick" required><br><br>
+            <label for="max_pick">Maximum Stones to Pick:</label>
+            <input type="number" id="max_pick" name="max_pick" required><br><br>
+            <input type="submit" name="start_game" value="Start Game">
+        </form>
     {% endif %}
-    {% endif %}
-    <h1>========================================================================================================</h1>
-    <h1>Enter the html tag in the text area</h1>
-    <form action="/htag" , method=post>
-
-                                                HTML content:<input class="form-control mr-sm-2 textboxclass"  id="l1"
-                                                    name="bigText" type="text" size="100" width="400px" height="200px" placeholder="Html content"
-                                                    aria-label="inputText">
-
-                                                <button class="btn btn-outline-success my-2 my-sm-0"
-                                                    type="submit">Search</button>
-                                            </form>
-    <h1>=====================================================================================================</h1>
-
-{%endblock%}
+</body>
+</html>

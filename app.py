@@ -5,7 +5,7 @@ import urllib
 import urllib.request
 import requests
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import pyodbc
 from azure.storage.blob import BlobServiceClient
 import random
@@ -245,8 +245,8 @@ iv=[]
 
 
 # =========================================================================================================================
-@app.route("/", methods=['GET', 'POST'])
-def index():
+# @app.route("/", methods=['GET', 'POST'])
+# def index():
     # if request.method == 'POST':
     #     N = 3
     #     word = "muÃŸte"
@@ -297,7 +297,7 @@ def index():
     #                            modified_document=modified_document, lines_with_word=lines_with_word,
     #                            lines_containing_word=lines_containing_word, N=N, word=word)
 
-    return render_template('index.html')
+    # return render_template('index.html')
 
 def find_top_n_nouns(story, n):
     sentences = sent_tokenize(story)
@@ -435,19 +435,19 @@ def checkPass():
     passVal = request.form.get('pass')
     print("values", l1, l2, iv)
     msg = validate_password(passVal,l1,l2,iv)
-    # if re.match(r"^(?=.*[0-9])(?=.*[A-Z]{2})(?=.*[#@+%!$%^&*])$", passVal):
-    #     isPassGood = True
-    #     print("if re matched",isPassGood)
-    # else:
-    #     isPassGood = False
-    #     print("if re did not match matched", isPassGood)
-    # if len(passVal) < l1 or len(passVal) > l2:
-    #     isPassGood = False
-    #     print("if len did not match matched", isPassGood)
-    # for i in iv:
-    #     if i in passVal:
-    #         isPassGood = False
-    #         print("if had special character matched", isPassGood)
+    if re.match(r"^(?=.*[0-9])(?=.*[A-Z]{2})(?=.*[#@+%!$%^&*])$", passVal):
+        isPassGood = True
+        print("if re matched",isPassGood)
+    else:
+        isPassGood = False
+        print("if re did not match matched", isPassGood)
+    if len(passVal) < l1 or len(passVal) > l2:
+        isPassGood = False
+        print("if len did not match matched", isPassGood)
+    for i in iv:
+        if i in passVal:
+            isPassGood = False
+            print("if had special character matched", isPassGood)
 
     return render_template('index.html', isPassGood=False, checkDone=True, msg=msg)
 
@@ -942,6 +942,120 @@ def upload(file):
     print("File", file)
     blob_client = container_client.upload_blob(name=file.filename, data=file.stream, overwrite=True)
     return "success"
+
+# Quiz 6 code ====================================================================>
+
+# Shared data
+game_data = {
+    'pile1': 0,
+    'pile2': 0,
+    'pile3': 0,
+    'player1': '',
+    'player2': '',
+    'turn': '',
+    'min_pick': 1,
+    'max_pick': 1,
+    'score1': 0,
+    'score2': 0,
+    'show': False
+}
+
+
+def reset_game():
+    # Reset game data to initial values
+    game_data['pile1'] = 0
+    game_data['pile2'] = 0
+    game_data['pile3'] = 0
+    game_data['score1'] = 0
+    game_data['score2'] = 0
+
+
+def start_game(pile1, pile2, pile3, min_pick, max_pick, player1, player2):
+    # Start a new game with provided settings
+    reset_game()
+    game_data['pile1'] = int(pile1)
+    game_data['pile2'] = int(pile2)
+    game_data['pile3'] = int(pile3)
+    game_data['min_pick'] = int(min_pick)
+    game_data['max_pick'] = int(max_pick)
+    game_data['player1'] = player1
+    game_data['player2'] = player2
+    game_data['turn'] = player1
+    game_data['show'] = True
+
+@app.route('/get_game_data')
+def get_game_data():
+    # Retrieve the game_data from your application logic
+    # game_data = game_data  # Replace this with your actual logic to get the game_data
+    return jsonify(game_data)
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        if 'start_game' in request.form:
+            # Start a new game
+            reset_game()
+            pile1 = request.form.get('pile1')
+            pile2 = request.form.get('pile2')
+            pile3 = request.form.get('pile3')
+            min_pick = request.form.get('min_pick')
+            max_pick = request.form.get('max_pick')
+            player1 = request.form.get('player1')
+            player2 = request.form.get('player2')
+            start_game(pile1, pile2, pile3, min_pick, max_pick, player1, player2)
+        elif 'pick_stones' in request.form:
+            # Process player's stone pick
+            pile = request.form.get('pile')
+            if game_data[pile] < 5:
+                stones = random.randint(1, game_data[pile])
+            else:
+                stones = random.randint(1, 5)
+            if game_data['turn'] == game_data['player1']:
+                game_data[pile] -= stones
+                game_data['score1'] += stones
+            elif game_data['turn'] == game_data['player2']:
+                game_data[pile] -= stones
+                game_data['score2'] += stones
+            if game_data['score1'] >= 10:
+                # Game round completed, determine the winner
+                # if game_data['turn'] == game_data['player1']:
+                # game_data['score1'] += 1
+                winner = game_data['player1']
+                game_data['show'] = False
+                return render_template('result.html', winner=winner, game_data=game_data)
+                # reset_game()
+            if game_data['score2'] >= 10:
+                # game_data['score2'] += 1
+                winner = game_data['player2']
+                game_data['show'] = False
+                return render_template('result.html', winner=winner, game_data=game_data)
+                # reset_game()
+            # Switch turns
+            game_data['turn'] = game_data['player2'] if game_data['turn'] == game_data['player1'] else game_data[
+                'player1']
+    print("Game data =====> ", game_data)
+    return render_template('index.html', game_data=game_data)
+
+
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    if request.method == 'POST':
+        if 'set_rules' in request.form:
+            # Set game rules
+            pile1 = request.form.get('pile1')
+            pile2 = request.form.get('pile2')
+            pile3 = request.form.get('pile3')
+            min_pick = request.form.get('min_pick')
+            max_pick = request.form.get('max_pick')
+            game_data['pile1'] = int(pile1)
+            game_data['pile2'] = int(pile2)
+            game_data['pile3'] = int(pile3)
+            game_data['min_pick'] = int(min_pick)
+            game_data['max_pick'] = int(max_pick)
+            game_data['show'] = True
+
+    return render_template('admin.html', game_data=game_data)
+
+
 class ValuesOBJ:
 
     # The init method or constructor
